@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Utilities;
 
 [CreateAssetMenu(menuName = "Game model/Ship", fileName = "Ship")]
@@ -13,6 +12,7 @@ public class ShipModel : ScriptableObject {
     public Vector3 minThrust = -Vector3.one;
     public Vector3 maxThrust = Vector3.one;
     public Vector3 flatTorque = Vector3.one;
+    
     public AnimationCurve[] torqueProfile = new AnimationCurve[3] {
         AnimationCurve.Linear(-1, -1, 1, 1),
         AnimationCurve.Linear(-1, -1, 1, 1),
@@ -24,4 +24,5 @@ public class ShipModel : ScriptableObject {
     public Matrix4x4 linearToRotationMatrix = Matrix4x4.zero;
 
     public float maxSpeed = 10f;
+
 }
