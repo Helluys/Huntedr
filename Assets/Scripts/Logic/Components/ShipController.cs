@@ -20,6 +20,9 @@ public class ShipController : MonoBehaviour {
 
         Vector3 cursorPosition = (-Input.GetAxis("Pitch") * Vector3.right + Input.GetAxis("Yaw") * Vector3.up) * mouseSensitivity;
         shipDynamics.inputTorque = cursorPosition + Input.GetAxis("Roll") * Vector3.forward;
+
+        shipDynamics.inputDrag = Input.GetAxis("Cushion");
+        shipDynamics.inputAngularDrag = Input.GetAxis("Stabilize");
     }
 
 }

@@ -23,6 +23,8 @@ public class ShipModel : ScriptableObject {
     public Matrix4x4 rotationalFrictionMatrix = MathUtils.ScaleMatrix(Matrix4x4.identity, -0.2f);
     public Matrix4x4 linearToRotationMatrix = Matrix4x4.zero;
 
-    public float maxSpeed = 10f;
+    public float cushionAbility;
+    public float stabilizeAbility;
 
+    public float maxSpeed = 10f;
 }

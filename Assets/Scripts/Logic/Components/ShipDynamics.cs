@@ -5,6 +5,8 @@ public class ShipDynamics : MonoBehaviour {
     
     public Vector3 inputThrust { get; set; }
     public Vector3 inputTorque { get; set; }
+    public float inputDrag { get; set; }
+    public float inputAngularDrag { get; set; }
 
     public float currentFluidDensity { get; set; }
 
@@ -30,14 +32,20 @@ public class ShipDynamics : MonoBehaviour {
     }
     
     void FixedUpdate() {
+        // Apply forces
         Vector3 thrust = ThrustFromInput();
         Vector3 friction = currentFluidDensity * (shipModelInstance.linearFrictionMatrix * localVelocity);
         rigidbody.AddRelativeForce(thrust + friction, ForceMode.Impulse);
 
+        // Apply torques
         Vector3 torque = TorqueFromInput();
         Vector3 rotFromSpeed = currentFluidDensity * (shipModelInstance.linearToRotationMatrix * localVelocity);
         Vector3 rotFriction = currentFluidDensity * (shipModelInstance.rotationalFrictionMatrix * localAngularVelocity);
         rigidbody.AddRelativeTorque(torque + rotFromSpeed + rotFriction, ForceMode.Impulse);
+
+        // Apply controlled dampening
+        rigidbody.drag = (Mathf.Atan(inputDrag) / Mathf.PI) * shipModel.cushionAbility;
+        rigidbody.angularDrag = (Mathf.Atan(inputAngularDrag) / Mathf.PI) * shipModel.stabilizeAbility;
     }
 
     private Vector3 ThrustFromInput() {
