@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using Utilities;
 
-[CreateAssetMenu(menuName = "Game model/Ship", fileName = "Ship")]
-public class ShipModel : ScriptableObject {
+[CreateAssetMenu(menuName = "Game data/Ships/Ship Dynamics", fileName = "ShipDynamics")]
+public class ShipDynamicsModel : ScriptableObject {
 
     public float mass = 1f;
     public Vector3 inertiaTensor = 5f * Vector3.one;
