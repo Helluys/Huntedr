@@ -62,7 +62,6 @@ public class ShipDynamics : MonoBehaviour {
 
     private Vector3 TorqueFromInput () {
         float normalizedSpeed = localVelocity.z / shipDynamicsInstance.maxSpeed;
-        Debug.Log(normalizedSpeed);
         return new Vector3(
             (Mathf.Atan(inputTorque.x) / Mathf.PI) * (shipDynamicsInstance.flatTorque.x + currentFluidDensity * shipDynamicsInstance.torqueProfile[0].Evaluate(normalizedSpeed)),
             (Mathf.Atan(inputTorque.y) / Mathf.PI) * (shipDynamicsInstance.flatTorque.y + currentFluidDensity * shipDynamicsInstance.torqueProfile[1].Evaluate(normalizedSpeed)),

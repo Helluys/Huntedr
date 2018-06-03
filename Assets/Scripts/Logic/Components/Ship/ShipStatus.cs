@@ -4,13 +4,16 @@ using UnityEngine;
 public class ShipStatus : MonoBehaviour {
 
     public event EventHandler<GameObject> OnDeath;
+    public event EventHandler<float> OnHealthChanged;
+    public event EventHandler<float> OnEnergyCHanged;
+    public event EventHandler<float> OnAmmunitionChanged;
 
     [SerializeField] private ShipStatusModel shipStatusModel;
     private ShipStatusModel shipStatusInstance;
 
-    private float health;
-    private float energy;
-    private uint ammunition;
+    public float health { get; private set; }
+    public float energy { get; private set; }
+    public uint ammunition { get; private set; }
 
     void Start () {
         shipStatusInstance = Instantiate(shipStatusModel);
@@ -29,9 +32,11 @@ public class ShipStatus : MonoBehaviour {
         bool killed = false;
 
         health -= damage;
+        OnHealthChanged(this, health);
+
         if (health <= 0f) {
             health = 0f;
-            OnDeath(this, gameObject);
+            if (OnDeath != null) OnDeath(this, gameObject);
             killed = true;
         }
 
@@ -52,6 +57,8 @@ public class ShipStatus : MonoBehaviour {
             health = shipStatusInstance.maxHealth;
         }
 
+        if (OnHealthChanged != null) OnHealthChanged(this, health);
+
         return repairedAmount;
     }
 
@@ -66,6 +73,7 @@ public class ShipStatus : MonoBehaviour {
         if (energy >= amount) {
             energy -= amount;
             allowed = true;
+            if (OnEnergyCHanged != null) OnEnergyCHanged(this, energy);
         }
 
         return allowed;
@@ -82,6 +90,7 @@ public class ShipStatus : MonoBehaviour {
         if (ammunition >= amount) {
             ammunition -= amount;
             allowed = true;
+            if (OnAmmunitionChanged != null) OnAmmunitionChanged(this, ammunition);
         }
 
         return allowed;

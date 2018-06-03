@@ -8,6 +8,14 @@ public class Ship : MonoBehaviour {
 
     [SerializeField] private ShipModel shipModel;
 
-    void Start () {
+    private ShipStatus shipStatus;
+
+    private void Start () {
+        shipStatus = GetComponent<ShipStatus>();
     }
+
+    private void OnCollisionEnter (Collision collision) {
+        shipStatus.Damage(collision.impulse.magnitude);
+    }
+
 }
