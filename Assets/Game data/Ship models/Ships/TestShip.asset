@@ -13,3 +13,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dynamicsModel: {fileID: 11400000, guid: d2ab056b9e5695e44a4b4d53f51e1890, type: 2}
   statusModel: {fileID: 11400000, guid: afae9842f4e9f9043896060278fab57b, type: 2}
+  weaponSystems:
+  - {fileID: 11400000, guid: d6050147c2ea5914f928307bceba7399, type: 2}

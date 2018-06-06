@@ -15,7 +15,7 @@ MonoBehaviour:
   inertiaTensor: {x: 5, y: 5, z: 3}
   centerOfMass: {x: 0, y: 0, z: 0}
   minThrust: {x: -5, y: -5, z: -5}
-  maxThrust: {x: 5, y: 5, z: 5}
+  maxThrust: {x: 5, y: 5, z: 15}
   flatTorque: {x: 1, y: 1, z: 1}
   torqueProfile:
   - serializedVersion: 2

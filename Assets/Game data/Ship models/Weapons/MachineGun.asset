@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5bb7662548fe81488613dd9521ff82f, type: 3}
+  m_Name: MachineGun
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 1005921899045874, guid: 3526c417677ed6b47b78b249b354c47f,
+    type: 2}
+  shootRate: 5
+  bulletVelocity: 500
