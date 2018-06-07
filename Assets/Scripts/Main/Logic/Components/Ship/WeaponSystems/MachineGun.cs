@@ -38,7 +38,7 @@ public class MachineGun : WeaponSystem {
         }
 
         private bool CanShoot () {
-            return Time.time > allowedShootTime && ship.shipStatus.TryUseAmmunition(1);
+            return Time.time > allowedShootTime && ship.status.TryUseAmmunition(1);
         }
     }
 }

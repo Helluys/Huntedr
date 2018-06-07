@@ -9,9 +9,9 @@ public class StatusPanelView : MonoBehaviour {
     [SerializeField] Text ammunitionField;
 
     void Start () {
-        ship.shipStatus.OnHealthChanged += UpdateHealth;
-        ship.shipStatus.OnEnergyCHanged += UpdateEnergy;
-        ship.shipStatus.OnAmmunitionChanged += UpdateAmmunition;
+        ship.status.OnHealthChanged += UpdateHealth;
+        ship.status.OnEnergyCHanged += UpdateEnergy;
+        ship.status.OnAmmunitionChanged += UpdateAmmunition;
     }
 
     private void UpdateHealth (object sender, float newHealth) {

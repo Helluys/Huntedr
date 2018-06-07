@@ -25,7 +25,7 @@ public class ShipDynamics {
         ship = holder;
         
         // Instancing model allows per ship instance model variation
-        shipDynamicsInstance = UnityEngine.Object.Instantiate(holder.shipModel.dynamicsModel);
+        shipDynamicsInstance = UnityEngine.Object.Instantiate(holder.model.dynamicsModel);
 
         rigidbody = holder.GetComponent<Rigidbody>();
         rigidbody.mass = shipDynamicsInstance.mass;
@@ -55,8 +55,8 @@ public class ShipDynamics {
         rigidbody.AddRelativeTorque(torque + rotFromSpeed + rotFriction, ForceMode.Impulse);
 
         // Apply controlled dampening
-        rigidbody.drag = (Mathf.Atan(inputCushion) / Mathf.PI) * ship.shipModel.dynamicsModel.cushionAbility;
-        rigidbody.angularDrag = (Mathf.Atan(inputStabilize) / Mathf.PI) * ship.shipModel.dynamicsModel.stabilizeAbility;
+        rigidbody.drag = (Mathf.Atan(inputCushion) / Mathf.PI) * ship.model.dynamicsModel.cushionAbility;
+        rigidbody.angularDrag = (Mathf.Atan(inputStabilize) / Mathf.PI) * ship.model.dynamicsModel.stabilizeAbility;
     }
 
     private Vector3 ThrustFromInput () {

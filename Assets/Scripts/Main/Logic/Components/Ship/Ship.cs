@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -6,41 +7,74 @@ public class Ship : MonoBehaviour {
     [SerializeField] private string _shipName;
     private string shipName { get { return _shipName; } }
 
-    public ShipModel shipModel;
-    public ShipStatus shipStatus;
-    public ShipDynamics shipDynamics;
-    public ShipController shipController;
+    public ShipModel model;
+    public ShipStatus status;
+    public ShipDynamics dynamics;
+    public ShipController controller;
+
+    public Faction faction;
 
     [SerializeField] private List<Transform> weaponTransforms;
     public List<WeaponSystem.IInstance> weaponSystems { get; private set; }
 
-    private ShipController.IInstance shipControllerInstance;
+    private ShipController.IInstance controllerInstance;
 
     public void Start () {
-        shipStatus = new ShipStatus(this);
-        shipDynamics = new ShipDynamics(this);
-        shipControllerInstance = shipController.CreateInstance(this);
+        // Instantiate all non shared data
+        status = new ShipStatus(this);
+        dynamics = new ShipDynamics(this);
+        controllerInstance = controller.CreateInstance(this);
+        SetupWeapons();
 
-        if (shipModel.weaponSystems.Count > weaponTransforms.Count)
+        ApplyFactionColor();
+
+        status.OnDeath += OnDeath;
+    }
+
+    private void SetupWeapons () {
+        if (model.weaponSystems.Count > weaponTransforms.Count)
             Debug.LogError("Too many weapon systems on this ship", gameObject);
 
-        int weaponCount = Mathf.Min(shipModel.weaponSystems.Count, weaponTransforms.Count);
+        int weaponCount = Mathf.Min(model.weaponSystems.Count, weaponTransforms.Count);
         weaponSystems = new List<WeaponSystem.IInstance>(weaponCount);
         for (int i = 0; i < weaponCount; i++)
-            weaponSystems.Add(shipModel.weaponSystems[i].CreateInstance(weaponTransforms[i], this));
+            weaponSystems.Add(model.weaponSystems[i].CreateInstance(weaponTransforms[i], this));
+    }
 
+    private void ApplyFactionColor () {
+        Transform modelTransform = transform.Find("Model");
+        if(modelTransform != null) {
+
+            Renderer modelRenderer = modelTransform.GetComponent<Renderer>();
+            if(modelRenderer != null) {
+                modelRenderer.material.color = faction.color;
+            }
+        }
+    }
+
+    private void OnDeath (object sender, Ship e) {
+        Rigidbody rigidbody = GetComponent<Rigidbody>();
+        rigidbody.velocity = Vector3.zero;
+        rigidbody.angularVelocity = Vector3.zero;
+        gameObject.SetActive(false);
+        Invoke("Respawn", 2f);
+    }
+
+    private void Respawn() {
+        GameManager.GetSpawningZone(faction).RespawnShip(this);
+        gameObject.SetActive(true);
     }
 
     private void Update () {
-        shipControllerInstance.OnUpdate();
+        controllerInstance.OnUpdate();
     }
 
     private void FixedUpdate () {
-        shipDynamics.OnFixedUpdate();
+        dynamics.OnFixedUpdate();
     }
 
     private void OnCollisionEnter (Collision collision) {
-        shipStatus.Damage(collision.impulse.magnitude);
+        status.Damage(collision.impulse.magnitude);
     }
 
 }

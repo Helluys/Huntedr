@@ -12,7 +12,7 @@ public class Bullet : MonoBehaviour {
             hitShip = collision.rigidbody.GetComponent<Ship>();
 
         if (hitShip != null)
-            hitShip.shipStatus.Damage(5);
+            hitShip.status.Damage(5);
 
         Destroy(gameObject);
     }

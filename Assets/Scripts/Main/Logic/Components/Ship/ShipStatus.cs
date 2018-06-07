@@ -1,4 +1,5 @@
 ﻿using System;
+
 using UnityEngine;
 
 [Serializable]
@@ -19,8 +20,12 @@ public class ShipStatus {
 
     public ShipStatus (Ship holder) {
         ship = holder;
-        shipStatusInstance = UnityEngine.Object.Instantiate(ship.shipModel.statusModel);
+        shipStatusInstance = UnityEngine.Object.Instantiate(ship.model.statusModel);
 
+        ResetStatus();
+    }
+
+    public void ResetStatus() {
         health = shipStatusInstance.maxHealth;
         energy = shipStatusInstance.maxEnergy;
         ammunition = shipStatusInstance.maxAmmunition;
@@ -97,5 +102,19 @@ public class ShipStatus {
         }
 
         return allowed;
+    }
+
+    public uint RefillAmmunition(uint amount) {
+        uint refillAmount = amount;
+        ammunition += amount;
+
+        if (ammunition >= shipStatusInstance.maxAmmunition) {
+            refillAmount = amount - (ammunition - shipStatusInstance.maxAmmunition);
+            ammunition = shipStatusInstance.maxAmmunition;
+        }
+
+        if (OnAmmunitionChanged != null) OnAmmunitionChanged(this, ammunition);
+
+        return refillAmount;
     }
 }

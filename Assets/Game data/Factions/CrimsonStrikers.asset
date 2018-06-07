@@ -8,10 +8,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5bb7662548fe81488613dd9521ff82f, type: 3}
-  m_Name: MachineGun
+  m_Script: {fileID: 11500000, guid: 8d4f51c0abd2d294e9aead21cbfdb6e9, type: 3}
+  m_Name: CrimsonStrikers
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 1005921899045874, guid: 3526c417677ed6b47b78b249b354c47f,
-    type: 2}
-  shootRate: 15
-  bulletVelocity: 500
+  name: Crimson Strikers
+  color: {r: 0.63486207, g: 0, b: 0, a: 0}
+  logo: {fileID: 10904, guid: 0000000000000000f000000000000000, type: 0}
