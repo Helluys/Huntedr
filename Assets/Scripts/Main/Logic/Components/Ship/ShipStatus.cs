@@ -7,7 +7,12 @@ public class ShipStatus {
 
     public event EventHandler<Ship> OnDeath;
     public event EventHandler<float> OnHealthChanged;
-    public event EventHandler<float> OnEnergyCHanged;
+
+    internal void Repair (object p) {
+        throw new NotImplementedException();
+    }
+
+    public event EventHandler<float> OnEnergyChanged;
     public event EventHandler<float> OnAmmunitionChanged;
 
     // The ship status of this instance, may be modified by effects
@@ -81,10 +86,24 @@ public class ShipStatus {
         if (energy >= amount) {
             energy -= amount;
             allowed = true;
-            if (OnEnergyCHanged != null) OnEnergyCHanged(this, energy);
+            if (OnEnergyChanged != null) OnEnergyChanged(this, energy);
         }
 
         return allowed;
+    }
+
+    public float RefillEnergy(float amount) {
+        float refillAmount = amount;
+        energy += amount;
+
+        if (energy >= shipStatusInstance.maxEnergy) {
+            refillAmount = amount - (energy - shipStatusInstance.maxEnergy);
+            energy = shipStatusInstance.maxEnergy;
+        }
+
+        if (OnEnergyChanged != null) OnEnergyChanged(this, energy);
+
+        return refillAmount;
     }
 
     /// <summary>

@@ -331,6 +331,11 @@ Prefab:
       propertyPath: dynamics.shipDynamicsInstance
       value: 
       objectReference: {fileID: 1445596316}
+    - target: {fileID: 23637977744044664, guid: 038f55f52230e2344b2f4dd465adda3a,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 559437147}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 038f55f52230e2344b2f4dd465adda3a, type: 2}
   m_IsPrefabParent: 0
@@ -557,6 +562,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0508992097e2ff54e9c68ef6ace70ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  faction: {fileID: 11400000, guid: 37b43f7feb252324eb724c2c04b1fa7f, type: 2}
   repairRate: 10
   ammunitionRefillRate: 10
 --- !u!114 &301544699
@@ -571,6 +577,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction: {fileID: 11400000, guid: 37b43f7feb252324eb724c2c04b1fa7f, type: 2}
+--- !u!114 &328217603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c100b7b32db43a41bf18308f7fa5279, type: 3}
+  m_Name: TestShipStatus(Clone)
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  maxEnergy: 100
+  maxAmmunition: 100
 --- !u!1 &351325206
 GameObject:
   m_ObjectHideFlags: 0
@@ -641,6 +661,80 @@ Transform:
   m_PrefabParentObject: {fileID: 4013051977314988, guid: 9b2e4728fbf8f8041b27e7a0489f518c,
     type: 2}
   m_PrefabInternal: {fileID: 1131180583}
+--- !u!21 &559437147
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Ship Red (Instance)
+  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _Parallax: 0.02
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0.6397059, g: 0.84104675, b: 1, a: 0}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &606796832
 GameObject:
   m_ObjectHideFlags: 0
@@ -725,6 +819,129 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 606796832}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &649455756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9072c367adbc31c4fad9b1488f51f495, type: 3}
+  m_Name: TestShipDynamics(Clone)
+  m_EditorClassIdentifier: 
+  mass: 5
+  inertiaTensor: {x: 5, y: 5, z: 3}
+  centerOfMass: {x: 0, y: 0, z: 0}
+  minThrust: {x: -5, y: -5, z: -5}
+  maxThrust: {x: 5, y: 5, z: 15}
+  flatTorque: {x: 1, y: 1, z: 1}
+  torqueProfile:
+  - serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: -1
+      value: -0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  - serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: -1
+      value: -0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  - serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: -1
+      value: -0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  linearFrictionMatrix:
+    e00: -0.2
+    e01: -0
+    e02: -0
+    e03: -0
+    e10: -0
+    e11: -0.2
+    e12: -0
+    e13: -0
+    e20: -0
+    e21: -0
+    e22: -0.2
+    e23: -0
+    e30: -0
+    e31: -0
+    e32: -0
+    e33: -0.2
+  rotationalFrictionMatrix:
+    e00: -0.2
+    e01: -0
+    e02: -0
+    e03: -0
+    e10: -0
+    e11: -0.2
+    e12: -0
+    e13: -0
+    e20: -0
+    e21: -0
+    e22: -0.2
+    e23: -0
+    e30: -0
+    e31: -0
+    e32: -0
+    e33: -0.2
+  linearToRotationMatrix:
+    e00: 0
+    e01: 0
+    e02: 0
+    e03: 0
+    e10: 0
+    e11: 0
+    e12: 0
+    e13: 0
+    e20: 0
+    e21: 0
+    e22: 0
+    e23: 0
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 0
+  cushionAbility: 0
+  stabilizeAbility: 0
+  maxSpeed: 10
 --- !u!1 &674491626
 GameObject:
   m_ObjectHideFlags: 0
@@ -947,6 +1164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0508992097e2ff54e9c68ef6ace70ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  faction: {fileID: 11400000, guid: 385e4ab66fd092c4cbe00ed831eb6e8d, type: 2}
   repairRate: 10
   ammunitionRefillRate: 10
 --- !u!114 &836763420
@@ -1209,27 +1427,87 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Ammo  : '
+  m_Text: 'Energy  : '
 --- !u!222 &922717680
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 922717677}
---- !u!114 &984958371
-MonoBehaviour:
+--- !u!21 &923815937
+Material:
+  serializedVersion: 6
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c100b7b32db43a41bf18308f7fa5279, type: 3}
-  m_Name: TestShipStatus(Clone)
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  maxEnergy: 100
-  maxAmmunition: 100
+  m_Name: Ship Red (Instance)
+  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _Parallax: 0.02
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0.63486207, g: 0, b: 0, a: 0}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &996763148
 GameObject:
   m_ObjectHideFlags: 0
@@ -1485,6 +1763,48 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1047837386}
+--- !u!1001 &1104447292
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4459735930778486, guid: 04acfcf989c340b4e94b42bb8b7602e6, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 9.83
+      objectReference: {fileID: 0}
+    - target: {fileID: 4459735930778486, guid: 04acfcf989c340b4e94b42bb8b7602e6, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 1.88
+      objectReference: {fileID: 0}
+    - target: {fileID: 4459735930778486, guid: 04acfcf989c340b4e94b42bb8b7602e6, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 13.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4459735930778486, guid: 04acfcf989c340b4e94b42bb8b7602e6, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4459735930778486, guid: 04acfcf989c340b4e94b42bb8b7602e6, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4459735930778486, guid: 04acfcf989c340b4e94b42bb8b7602e6, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4459735930778486, guid: 04acfcf989c340b4e94b42bb8b7602e6, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4459735930778486, guid: 04acfcf989c340b4e94b42bb8b7602e6, type: 2}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 04acfcf989c340b4e94b42bb8b7602e6, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &1116894391
 GameObject:
   m_ObjectHideFlags: 0
@@ -1692,16 +2012,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 114106417590611352, guid: 9b2e4728fbf8f8041b27e7a0489f518c,
+    - target: {fileID: 23575885895303666, guid: 9b2e4728fbf8f8041b27e7a0489f518c,
         type: 2}
-      propertyPath: status.shipStatusInstance
+      propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 984958371}
-    - target: {fileID: 114106417590611352, guid: 9b2e4728fbf8f8041b27e7a0489f518c,
-        type: 2}
-      propertyPath: dynamics.shipDynamicsInstance
-      value: 
-      objectReference: {fileID: 1342630012}
+      objectReference: {fileID: 923815937}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9b2e4728fbf8f8041b27e7a0489f518c, type: 2}
   m_IsPrefabParent: 0
@@ -1789,7 +2104,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1144285951}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1342630012
+--- !u!114 &1168416750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c100b7b32db43a41bf18308f7fa5279, type: 3}
+  m_Name: TestShipStatus(Clone)
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  maxEnergy: 100
+  maxAmmunition: 100
+--- !u!114 &1254325191
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -2001,6 +2330,48 @@ MonoBehaviour:
   maxHealth: 100
   maxEnergy: 100
   maxAmmunition: 100
+--- !u!1001 &1355244352
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4429299051223196, guid: e981424a3844ba74eb8c1fe67dcc87af, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 5.83
+      objectReference: {fileID: 0}
+    - target: {fileID: 4429299051223196, guid: e981424a3844ba74eb8c1fe67dcc87af, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 1.88
+      objectReference: {fileID: 0}
+    - target: {fileID: 4429299051223196, guid: e981424a3844ba74eb8c1fe67dcc87af, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 13.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4429299051223196, guid: e981424a3844ba74eb8c1fe67dcc87af, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4429299051223196, guid: e981424a3844ba74eb8c1fe67dcc87af, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4429299051223196, guid: e981424a3844ba74eb8c1fe67dcc87af, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4429299051223196, guid: e981424a3844ba74eb8c1fe67dcc87af, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4429299051223196, guid: e981424a3844ba74eb8c1fe67dcc87af, type: 2}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: e981424a3844ba74eb8c1fe67dcc87af, type: 2}
+  m_IsPrefabParent: 0
 --- !u!114 &1445596316
 MonoBehaviour:
   m_ObjectHideFlags: 0

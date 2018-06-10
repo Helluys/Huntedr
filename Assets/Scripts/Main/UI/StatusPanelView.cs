@@ -10,7 +10,7 @@ public class StatusPanelView : MonoBehaviour {
 
     void Start () {
         ship.status.OnHealthChanged += UpdateHealth;
-        ship.status.OnEnergyCHanged += UpdateEnergy;
+        ship.status.OnEnergyChanged += UpdateEnergy;
         ship.status.OnAmmunitionChanged += UpdateAmmunition;
     }
 
