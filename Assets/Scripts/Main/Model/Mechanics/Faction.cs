@@ -5,7 +5,9 @@ public class Faction : ScriptableObject {
 
     new public string name;
 
-    public Color color;
+    public Color primaryColor;
+
+    public Color secondaryColor;
 
     public Texture2D logo;
 

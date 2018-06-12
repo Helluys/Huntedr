@@ -8,10 +8,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5bb7662548fe81488613dd9521ff82f, type: 3}
-  m_Name: MachineGun
+  m_Script: {fileID: 11500000, guid: 0f6cf9889bf42a3448db0a1d8cf3d2b5, type: 3}
+  m_Name: FactionTargetDestruction
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 1005921899045874, guid: 3526c417677ed6b47b78b249b354c47f,
-    type: 2}
-  shootRate: 5
-  bulletVelocity: 1000
+  triggerName: Destroy
+  destroyOnAnimationEnd: 1
+  destroyDelay: 1

@@ -14,13 +14,13 @@ public class StatusPanelView : MonoBehaviour {
         ship.status.OnAmmunitionChanged += UpdateAmmunition;
     }
 
-    private void UpdateHealth (object sender, float newHealth) {
-        healthField.text = newHealth.ToString();
+    private void UpdateHealth (object sender, float healthDelta) {
+        healthField.text = ship.status.GetHealth().ToString();
     }
-    private void UpdateEnergy(object sender, float newEnergy) {
-        energyField.text = newEnergy.ToString();
+    private void UpdateEnergy(object sender, float energyDelta) {
+        energyField.text = ship.status.GetEnergy().ToString();
     }
-    private void UpdateAmmunition (object sender, float newAmmunition) {
-        ammunitionField.text = newAmmunition.ToString();
+    private void UpdateAmmunition (object sender, float ammunitionDelta) {
+        ammunitionField.text = ship.status.GetAmmunition().ToString();
     }
 }

@@ -8,9 +8,9 @@ public class ShipEditor : Editor {
     public override void OnInspectorGUI () {
         base.OnInspectorGUI();
 
-        Ship ship = (Ship) target;
+        Ship ship = target as Ship;
         if (GUILayout.Button("Reset with model")) {
-            ship.Start();
+            ship.ResetModels();
         }
     }
 
