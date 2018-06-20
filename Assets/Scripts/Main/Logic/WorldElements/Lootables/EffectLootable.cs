@@ -3,7 +3,7 @@
     public Effect effect;
     
     public override void PickUp (Ship ship) {
-        Instantiate(effect).Activate(ship);
+        ship.status.AddEffect(Instantiate(effect));
         Destroy(gameObject);
     }
 }

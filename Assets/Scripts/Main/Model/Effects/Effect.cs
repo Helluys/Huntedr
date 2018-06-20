@@ -3,57 +3,82 @@ using System.Collections;
 using UnityEngine;
 
 public abstract class Effect : ScriptableObject {
-
     [Serializable]
-    public enum Type {
-        ONE_SHOT, FIXED_TIME, UNLIMITED
+    public enum EndCondition {
+        OneFrame,
+        FixedTime,
+        Unlimited
     }
 
-    public Type type;
+    public enum RepeatType {
+        AtStartup, EveryFrame
+    }
+
     public float duration;
 
-    public bool active {get; protected set; }
+    private Coroutine repeatCoroutine;
 
     protected Ship target;
 
-    private Coroutine repeatCoroutine = null;
+    public EndCondition endCondition;
+
+    public RepeatType repeatType;
+
+    public bool active { get; protected set; }
+
+    public event EventHandler<Effect> OnDeactivation;
 
     public void Activate (Ship ship) {
-        if (!active) {
-            target = ship;
+        if (active) return;
 
-            switch (type) {
-                case Type.ONE_SHOT:
-                    Apply(ship);
-                    break;
-                case Type.FIXED_TIME:
-                    float endTime = Time.time + duration;
-                    repeatCoroutine = ship.StartCoroutine(RepeatEffect(endTime));
-                    active = true;
-                    break;
-                case Type.UNLIMITED:
-                    repeatCoroutine = ship.StartCoroutine(RepeatEffect(Mathf.Infinity));
-                    active = true;
-                    break;
-            }
+        target = ship;
+
+        switch (endCondition) {
+            case EndCondition.OneFrame:
+                Apply(ship);
+                break;
+            case EndCondition.FixedTime:
+                var endTime = Time.time + duration;
+                repeatCoroutine = ship.StartCoroutine(PerformEffect(endTime));
+                active = true;
+                break;
+            case EndCondition.Unlimited:
+                repeatCoroutine = ship.StartCoroutine(PerformEffect(Mathf.Infinity));
+                active = true;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
     }
 
     public void Deactivate () {
-        if (active) {
-            active = false;
-            target.StopCoroutine(repeatCoroutine);
-            repeatCoroutine = null;
-        }
+        if (!active) return;
+
+        active = false;
+        target.StopCoroutine(repeatCoroutine);
+        repeatCoroutine = null;
+        OnDeactivation?.Invoke(this, this);
     }
 
     protected abstract void Apply (Ship ship);
 
-    private IEnumerator RepeatEffect (float endTime) {
-        while (Time.time < endTime) {
-            Apply(target);
-            yield return null;
+    private IEnumerator PerformEffect (float endTime) {
+        switch (repeatType) {
+            case RepeatType.AtStartup:
+                Apply(target);
+                yield return new WaitForSeconds(endTime - Time.time);
+                break;
+            case RepeatType.EveryFrame:
+                while (Time.time < endTime) {
+                    Apply(target);
+                    yield return null;
+                }
+                break;
+            default:
+                break;
         }
+
+
         Deactivate();
     }
 }

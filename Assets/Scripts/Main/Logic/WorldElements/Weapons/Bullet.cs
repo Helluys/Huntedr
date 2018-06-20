@@ -9,13 +9,8 @@ public class Bullet : MonoBehaviour {
     }
 
     private void OnCollisionEnter (Collision collision) {
-        IDestructible hitTarget = null;
-        if (collision.rigidbody != null)
-            hitTarget = collision.rigidbody.GetComponent<IDestructible>();
-
-        if (hitTarget != null)
-            hitTarget.Damage(collision.impulse.magnitude);
-
+        IDestructible hitTarget = collision.rigidbody?.GetComponent<IDestructible>();
+        hitTarget?.Damage(collision.impulse.magnitude);
         Destroy(gameObject);
     }
 }

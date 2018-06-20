@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
@@ -10,13 +10,15 @@ public class ShipStatus {
     public event EventHandler<float> OnAmmunitionChanged;
     public event EventHandler<Ship> OnDeath;
 
-    // The ship status of this instance, may be modified by effects
-    [SerializeField] private ShipStatusModel shipStatusInstance;
-
     public Ship ship { get; }
     [SerializeField] private float health;
     [SerializeField] private float energy;
     [SerializeField] private uint ammunition;
+
+    // The ship status of this instance, may be modified by effects
+    private ShipStatusModel shipStatusInstance;
+
+    private List<Effect> effects = new List<Effect>();
 
     public ShipStatus (Ship holder) {
         ship = holder;
@@ -24,6 +26,8 @@ public class ShipStatus {
 
         ResetStatus();
     }
+
+    #region status
 
     public void ResetStatus () {
         health = shipStatusInstance.maxHealth;
@@ -46,18 +50,14 @@ public class ShipStatus {
             killed = true;
         }
 
-        if (OnHealthChanged != null)
-            OnHealthChanged(this, -damage);
-
+        OnHealthChanged?.Invoke(this, -damage);
         return killed;
     }
 
     public void Destroy () {
         health = 0f;
-
-        if (OnDeath != null)
-            OnDeath(this, ship);
-
+        
+        OnDeath?.Invoke(this, ship);
     }
 
     /// <summary>
@@ -74,9 +74,7 @@ public class ShipStatus {
             health = shipStatusInstance.maxHealth;
         }
 
-        if (OnHealthChanged != null)
-            OnHealthChanged(this, amount);
-
+        OnHealthChanged?.Invoke(this, amount);
         return repairedAmount;
     }
 
@@ -92,8 +90,7 @@ public class ShipStatus {
             energy -= amount;
             allowed = true;
 
-            if (OnEnergyChanged != null)
-                OnEnergyChanged(this, -amount);
+            OnEnergyChanged?.Invoke(this, -amount);
         }
 
         return allowed;
@@ -108,9 +105,7 @@ public class ShipStatus {
             energy = shipStatusInstance.maxEnergy;
         }
 
-        if (OnEnergyChanged != null)
-            OnEnergyChanged(this, amount);
-
+        OnEnergyChanged?.Invoke(this, amount);
         return refillAmount;
     }
 
@@ -126,8 +121,7 @@ public class ShipStatus {
             ammunition -= amount;
             allowed = true;
 
-            if (OnAmmunitionChanged != null)
-                OnAmmunitionChanged(this, -amount);
+            OnAmmunitionChanged?.Invoke(this, -amount);
         }
 
         return allowed;
@@ -142,15 +136,38 @@ public class ShipStatus {
             ammunition = shipStatusInstance.maxAmmunition;
         }
 
-        if (OnAmmunitionChanged != null)
-            OnAmmunitionChanged(this, amount);
-
+        OnAmmunitionChanged?.Invoke(this, amount);
         return refillAmount;
     }
 
+    #endregion
+
     #region getters
+
     public float GetHealth () { return health; }
     public float GetEnergy () { return energy; }
     public uint GetAmmunition () { return ammunition; }
+
+    #endregion
+
+    #region effects
+
+    public void AddEffect(Effect effect) {
+        if (!effects.Contains(effect)) {
+            effects.Add(effect);
+            effect.Activate(ship);
+            effect.OnDeactivation += RemoveEffect;
+        }
+    }
+
+    public void RemoveEffect (Effect effect) {
+        if (effect.active)
+            effect.Deactivate();
+    }
+
+    private void RemoveEffect(object source, Effect effect) {
+        effects.Remove(effect);
+    }
+
     #endregion
 }

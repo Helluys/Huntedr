@@ -8,6 +8,7 @@ public class PlayerShipController : ShipController {
     [SerializeField] private float mouseSensitivity;
     #endregion
 
+    #region unshared state
     public override IInstance CreateInstance (Ship holder) {
         return new Instance(this, holder);
     }
@@ -41,4 +42,5 @@ public class PlayerShipController : ShipController {
                 primaryWeapon.Shoot();
         }
     }
+    #endregion unshared state
 }

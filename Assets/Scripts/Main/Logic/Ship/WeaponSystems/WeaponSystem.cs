@@ -8,6 +8,10 @@ public abstract class WeaponSystem : ScriptableObject {
 
         void Shoot ();
 
+        void Buff (WeaponBuffEffect effect);
+
+        void Debuff (WeaponBuffEffect effect);
+
     }
     
 }

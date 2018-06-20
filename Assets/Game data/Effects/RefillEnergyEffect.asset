@@ -11,6 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 301f5624fea133e4ab36bcfaf0ef9060, type: 3}
   m_Name: RefillEnergyEffect
   m_EditorClassIdentifier: 
-  type: 1
   duration: 5
-  refillRate: 5
+  endCondition: 1
+  repeatType: 1
+  refillRate: 10

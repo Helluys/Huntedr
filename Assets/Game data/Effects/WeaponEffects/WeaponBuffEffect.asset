@@ -8,10 +8,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4b0c5a2def3f6947a8d2b030599e770, type: 3}
-  m_Name: RepairEffect
+  m_Script: {fileID: 11500000, guid: efe21c9f812b6ca48a9fa0ffac7203b1, type: 3}
+  m_Name: WeaponBuffEffect
   m_EditorClassIdentifier: 
   duration: 5
   endCondition: 1
-  repeatType: 1
-  repairRate: 10
+  repeatType: 0
+  buffRatio: 5

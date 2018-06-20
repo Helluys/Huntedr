@@ -10,5 +10,4 @@ public class DummyShipController : ShipController {
     private class Instance : IInstance {
         public void OnUpdate () {}
     }
-
 }

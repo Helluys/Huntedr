@@ -8,7 +8,7 @@ public class CameraManager : MonoBehaviour {
     public Vector3 offset;
     public Vector3 rotation;
 
-    void Update () {
+    private void Update () {
         transform.position = target.position + target.TransformVector(offset);
         transform.rotation = Quaternion.Euler(rotation) * target.rotation;
     }
