@@ -4,7 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName ="AnimatedDestruction", menuName ="Game data/Destruction sequence/Animated destruction sequence")]
 public class AnimatedDestructionSequence : DestructionSequence {
 
-    public string TriggerName;
+    public string triggerName;
 
     public bool DestroyOnAnimationEnd;
     public float DestroyDelay;
@@ -14,7 +14,7 @@ public class AnimatedDestructionSequence : DestructionSequence {
         if (animator == null)
             throw new MissingComponentException("Missing Animator on Destructible with AnimatedDestructionSequence");
 
-        animator.SetTrigger(TriggerName);
+        animator.SetTrigger(triggerName);
         Destroy(destroyedObject.gameObject, DestroyDelay);
 
         yield break;

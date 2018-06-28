@@ -16,7 +16,7 @@ public class Ship : MonoBehaviour, IDestructible {
     public Faction faction;
 
     [SerializeField] private List<Transform> weaponTransforms;
-    public List<WeaponSystem.IInstance> weaponSystems { get; private set; }
+    public List<GameObject> weaponSystems { get; private set; }
 
     public bool isDestroyed { get; private set; } = false;
 
@@ -63,9 +63,12 @@ public class Ship : MonoBehaviour, IDestructible {
             Debug.LogError("Too many weapon systems on this ship", gameObject);
 
         int weaponCount = Mathf.Min(model.weaponSystems.Count, weaponTransforms.Count);
-        weaponSystems = new List<WeaponSystem.IInstance>(weaponCount);
-        for (int i = 0; i < weaponCount; i++)
-            weaponSystems.Add(model.weaponSystems[i].CreateInstance(weaponTransforms[i], this));
+        weaponSystems = new List<GameObject>(weaponCount);
+        for (int i = 0; i < weaponCount; i++) {
+            GameObject weaponSystemGO = Instantiate(model.weaponSystems[i], weaponTransforms[i]);
+            weaponSystemGO.GetComponent<WeaponSystem>().Initialize(this);
+            this.weaponSystems.Add(weaponSystemGO);
+        }
     }
 
     private void ApplyFactionColor () {

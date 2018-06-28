@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Name: FactionTargetDestruction
   m_EditorClassIdentifier: 
   triggerName: Destroy
-  destroyOnAnimationEnd: 1
-  destroyDelay: 1
+  DestroyOnAnimationEnd: 1
+  DestroyDelay: 0

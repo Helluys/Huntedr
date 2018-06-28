@@ -18,9 +18,10 @@ public class PlayerShipController : ShipController {
 
         private PlayerShipController model;
         private Ship ship;
-        private WeaponSystem.IInstance primaryWeapon { get { return ship.weaponSystems[0]; } }
+        private WeaponSystem primaryWeapon { get { return ship.weaponSystems[0].GetComponent<WeaponSystem>(); } }
+        private WeaponSystem secondaryWeapon { get { return ship.weaponSystems[1].GetComponent<WeaponSystem>(); } }
 
-        public Instance(PlayerShipController playerController, Ship holder) {
+        public Instance (PlayerShipController playerController, Ship holder) {
             Cursor.lockState = CursorLockMode.Locked;
             model = playerController;
             ship = holder;
@@ -38,8 +39,11 @@ public class PlayerShipController : ShipController {
             ship.dynamics.inputCushion = Input.GetAxis("Cushion");
             ship.dynamics.inputStabilize = Input.GetAxis("Stabilize");
 
-            if (primaryWeapon != null && Input.GetButton("Shoot"))
+            if (primaryWeapon != null && Input.GetButton("ShootPrimary"))
                 primaryWeapon.Shoot();
+
+            if (secondaryWeapon != null && Input.GetButton("ShootSecondary"))
+                secondaryWeapon.Shoot();
         }
     }
     #endregion unshared state

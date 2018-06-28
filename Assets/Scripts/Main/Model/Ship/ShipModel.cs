@@ -5,5 +5,5 @@ using UnityEngine;
 public class ShipModel : ScriptableObject {
     public ShipDynamicsModel dynamicsModel;
     public ShipStatusModel statusModel;
-    public List<WeaponSystem> weaponSystems;
+    public List<GameObject> weaponSystems;
 }

@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
 
 [Serializable]
 public class FloatStatistic {
 
+    [Serializable]
     public class Modifier {
         public enum Type {
             Flat, Factor
@@ -28,7 +31,9 @@ public class FloatStatistic {
         }
     }
 
-    private float baseValue;
+    private ISet<Modifier> modifiers = new HashSet<Modifier>();
+    
+    [SerializeField] private float baseValue;
     public float value {
         get {
             float val = baseValue;
@@ -37,8 +42,6 @@ public class FloatStatistic {
             return val;
         }
     }
-
-    private ISet<Modifier> modifiers = new HashSet<Modifier>();
 
     public FloatStatistic (float baseValue) {
         this.baseValue = baseValue;
