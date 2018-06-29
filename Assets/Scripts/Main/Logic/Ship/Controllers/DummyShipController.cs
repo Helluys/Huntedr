@@ -4,10 +4,19 @@
 public class DummyShipController : ShipController {
 
     public override IInstance CreateInstance (Ship holder) {
-        return new Instance();
+        return new Instance(holder);
     }
 
     private class Instance : IInstance {
-        public void OnUpdate () {}
+
+        private Ship ship;
+
+        public Instance(Ship ship) {
+            this.ship = ship;
+        }
+
+        public void OnUpdate () {
+            ship.dynamics.inputThrust = Vector3.forward;
+        }
     }
 }

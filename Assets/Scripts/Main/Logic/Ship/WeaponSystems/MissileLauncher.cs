@@ -6,6 +6,7 @@ public class MissileLauncher : WeaponSystem {
     [SerializeField] private GameObject missilePrefab;
     [SerializeField] private Transform shootBulletPoint;
     [SerializeField] private FloatStatistic cooldown = new FloatStatistic(1);
+    [SerializeField] private ObjectDetector detector;
 
     private Ship ship;
     
@@ -14,6 +15,11 @@ public class MissileLauncher : WeaponSystem {
     private List<Ship> detectedShips = new List<Ship>();
     private Transform lockedTarget;
 
+    private void Start () {
+        detector.OnObjectDetected += Detector_OnObjectDetected;
+        detector.OnObjectLost += Detector_OnObjectLost;
+    }
+    
     private void Update () {
         lockedTarget = null;
         foreach (Ship detectedShip in detectedShips) {
@@ -65,14 +71,16 @@ public class MissileLauncher : WeaponSystem {
 
     #region ship detection
 
-    private void OnTriggerEnter (Collider other) {
-        Ship foundShip = other.attachedRigidbody.GetComponent<Ship>();
-        if (foundShip != null && !detectedShips.Contains(foundShip))
+    private void Detector_OnObjectDetected (object sender, Collider collider) {
+    Ship foundShip = collider.attachedRigidbody?.GetComponent<Ship>();
+        if (foundShip != null && !detectedShips.Contains(foundShip)) {
+            Debug.Log("Detected ship " + foundShip.name);
             detectedShips.Add(foundShip);
+        }
     }
 
-    private void OnTriggerExit (Collider other) {
-        Ship foundShip = other.attachedRigidbody.GetComponent<Ship>();
+    public void Detector_OnObjectLost (object sender, Collider collider) {
+        Ship foundShip = collider.attachedRigidbody?.GetComponent<Ship>();
         if (foundShip != null && detectedShips.Contains(foundShip))
             detectedShips.Remove(foundShip);
     }
