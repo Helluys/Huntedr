@@ -5,8 +5,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Ship : MonoBehaviour, IDestructible {
-    [SerializeField] private string _shipName;
-    private string shipName { get { return _shipName; } }
+    new public string name;
 
     public ShipModel model;
     public ShipStatus status;
@@ -27,8 +26,6 @@ public class Ship : MonoBehaviour, IDestructible {
 
     #region Unity events
     public void Start () {
-        ResetModels();
-
         ApplyFactionColor();
 
         status.OnHealthChanged += OnHealthChanged;
@@ -98,7 +95,7 @@ public class Ship : MonoBehaviour, IDestructible {
             OnDamage(this, this);
     }
 
-    private void Respawn () {
+    public void Respawn () {
         GameManager.GetSpawningZone(faction).RespawnShip(this);
         gameObject.SetActive(true);
         isDestroyed = false;

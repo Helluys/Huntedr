@@ -6,10 +6,9 @@ using Utilities;
 public class SpawningZone : MonoBehaviour {
 
     private new Collider collider;
-    public Faction faction;
+    public int factionIndex;
 
     private void Start () {
-        GameManager.AddSpawningZone(this);
         collider = GetComponent<Collider>();
     }
 

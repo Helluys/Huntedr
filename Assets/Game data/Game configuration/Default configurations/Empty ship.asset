@@ -8,7 +8,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69761769c6404bb45bf32b5035a4cc0c, type: 3}
-  m_Name: DummyShipController
+  m_Script: {fileID: 11500000, guid: 14eced38f793ce6479c80c191ccfe0c4, type: 3}
+  m_Name: Empty ship
   m_EditorClassIdentifier: 
-  name: AI
+  name: 
+  shipModel: {fileID: 0}
+  controller: {fileID: 0}

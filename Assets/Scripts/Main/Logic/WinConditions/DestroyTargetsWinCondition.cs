@@ -2,20 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName ="DestroyTargets", menuName ="Game data/Win Conditions/Destroy Targets")]
+[CreateAssetMenu(fileName = "DestroyTargets", menuName = "Game data/Win Conditions/Destroy Targets")]
 public class DestroyTargetsWinCondition : WinCondition {
 
     [Serializable]
     private class FactionDestructibles {
-        public Faction faction;
+        public int factionIndex;
         public List<Destructible> destructibles;
+
+        public Faction faction {
+            get {
+                return GameManager.instance.gameConfiguration.teams[factionIndex].faction;
+            }
+        }
     }
 
     [SerializeField] private List<FactionDestructibles> factionDestructiblesList;
 
     public override Faction GetWinner () {
         List<Faction> aliveFactions = new List<Faction>();
-    
+
         // Loop through factions
         foreach (FactionDestructibles factionDestructibles in factionDestructiblesList) {
             // A faction has lost if all its destructibles are destroyed
@@ -42,11 +48,11 @@ public class DestroyTargetsWinCondition : WinCondition {
 
     public override void Setup () {
         foreach (FactionDestructibles factionDestructibles in factionDestructiblesList) {
-            foreach(IDestructible destructible in factionDestructibles.destructibles) {
+            foreach (IDestructible destructible in factionDestructibles.destructibles) {
                 destructible.OnDestruction += CheckWinCondition;
 
                 Component component = destructible as Component;
-                if(component != null)
+                if (component != null)
                     GameObjectUtils.SetColorRecursive(component.transform, factionDestructibles.faction.primaryColor, factionDestructibles.faction.secondaryColor);
             }
         }

@@ -73,10 +73,8 @@ public class MissileLauncher : WeaponSystem {
 
     private void Detector_OnObjectDetected (object sender, Collider collider) {
     Ship foundShip = collider.attachedRigidbody?.GetComponent<Ship>();
-        if (foundShip != null && !detectedShips.Contains(foundShip)) {
-            Debug.Log("Detected ship " + foundShip.name);
+        if (foundShip != null && !detectedShips.Contains(foundShip))
             detectedShips.Add(foundShip);
-        }
     }
 
     public void Detector_OnObjectLost (object sender, Collider collider) {

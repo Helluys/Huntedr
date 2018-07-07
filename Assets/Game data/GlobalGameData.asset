@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e70d6464a8306844a012a556cfaddf8, type: 3}
+  m_Name: GlobalGameData
+  m_EditorClassIdentifier: 
+  maps:
+  - prettyName: Test Map
+    sceneName: Test Map
+    teamCount: 2
+  - prettyName: Triple map
+    sceneName: Triple Map
+    teamCount: 3
+  shipModels:
+  - {fileID: 11400000, guid: f59b4fd3c72e920429c1b9c5bec51925, type: 2}
+  shipControllers:
+  - {fileID: 11400000, guid: d28b88647e80e594e937dd1a33ddfefe, type: 2}
+  - {fileID: 11400000, guid: 887567b244bea974bbabc8e9685869a1, type: 2}
+  factions:
+  - {fileID: 11400000, guid: 385e4ab66fd092c4cbe00ed831eb6e8d, type: 2}
+  - {fileID: 11400000, guid: 37b43f7feb252324eb724c2c04b1fa7f, type: 2}
+  - {fileID: 11400000, guid: 5afb7398408e77a4fae755d7a6930344, type: 2}
+  emptyTeamConfiguration: {fileID: 11400000, guid: 8f1cfa0933b811741b917f623f0213ce,
+    type: 2}
+  emptyShipConfiguration: {fileID: 11400000, guid: 7c6929ea681f2674bad47bb35dd15a60,
+    type: 2}

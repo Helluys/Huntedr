@@ -2,9 +2,6 @@
 
 using UnityEngine;
 
-/// <summary>
-/// 
-/// </summary>
 [RequireComponent(typeof(Rigidbody))]
 public class ObjectDetector : MonoBehaviour {
 

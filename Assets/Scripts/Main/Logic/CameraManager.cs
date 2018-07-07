@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-[ExecuteInEditMode]
 [RequireComponent(typeof(Camera))]
 public class CameraManager : MonoBehaviour {
 
@@ -8,8 +7,14 @@ public class CameraManager : MonoBehaviour {
     public Vector3 offset;
     public Vector3 rotation;
 
+    private void Start () {
+        target = GameManager.instance.playerList[0].transform;
+    }
+
     private void Update () {
-        transform.position = target.position + target.TransformVector(offset);
-        transform.rotation = Quaternion.Euler(rotation) * target.rotation;
+        if (target != null) {
+            transform.position = target.position + target.TransformVector(offset);
+            transform.rotation = Quaternion.Euler(rotation) * target.rotation;
+        }
     }
 }

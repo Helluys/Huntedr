@@ -9,6 +9,7 @@ public class StatusPanelView : MonoBehaviour {
     [SerializeField] Text ammunitionField;
 
     void Start () {
+        ship = GameManager.instance.playerList[0];
         ship.status.OnHealthChanged += UpdateHealth;
         ship.status.OnEnergyChanged += UpdateEnergy;
         ship.status.OnAmmunitionChanged += UpdateAmmunition;

@@ -6,22 +6,29 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager instance;
 
-    private Dictionary<Faction, SpawningZone> spawningZones = new Dictionary<Faction, SpawningZone>();
-
     public WinCondition winConditions;
 
-    void Start() {
-        if (instance != null) {
-            Debug.LogError("Only one instance of gameManager is allowed");
-            Destroy(this);
-        } else
-            instance = this;
+    public GameConfiguration gameConfiguration;
+    public List<Ship> playerList = new List<Ship>();
 
-        winConditions.Setup();
+    [SerializeField] GameObject shipPrefab;
+    [SerializeField] ShipController playerController;
+
+    [SerializeField] private List<SpawningZone> spawningZones = new List<SpawningZone>();
+
+    private void SetUpSingleton () {
+        if (instance != null)
+            Debug.LogError("Only one instance of gameManager is allowed");
+        else
+            instance = this;
     }
 
-    public static void AddSpawningZone (SpawningZone spawningZone) {
-        instance.spawningZones.Add(spawningZone.faction, spawningZone);
+    private void Start() {
+        SetUpSingleton();
+        
+        CreateShips();
+
+        winConditions.Setup();
     }
 
     public static bool AreFriendlyFactions (Faction faction1, Faction faction2) {
@@ -29,6 +36,27 @@ public class GameManager : MonoBehaviour {
     }
 
     public static SpawningZone GetSpawningZone(Faction faction) {
-        return instance.spawningZones[faction];
+        return instance.spawningZones[faction.index];
+    }
+
+    private void CreateShips () {
+        foreach(TeamConfiguration teamConfiguration in gameConfiguration.teams) {
+            SpawningZone spawningZone = spawningZones.Find(sz => sz.factionIndex.Equals(teamConfiguration.faction.index));
+
+            foreach (ShipConfiguration shipConfiguration in teamConfiguration.ships) {
+                Ship ship = Instantiate(shipPrefab).GetComponent<Ship>();
+                ship.faction = teamConfiguration.faction;
+
+                ship.name = shipConfiguration.name;
+                ship.model = shipConfiguration.shipModel;
+                ship.controller = shipConfiguration.shipController;
+
+                if (shipConfiguration.shipController.Equals(playerController))
+                    playerList.Add(ship);
+
+                ship.ResetModels();
+                ship.Respawn();
+            }
+        }
     }
 }

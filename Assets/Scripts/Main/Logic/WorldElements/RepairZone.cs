@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RepairZone : MonoBehaviour {
 
-    public Faction faction;
+    public int factionIndex;
     public float repairRate;
     public float ammunitionRefillRate;
 
@@ -13,7 +13,7 @@ public class RepairZone : MonoBehaviour {
     private void OnTriggerEnter (Collider other) {
         Ship ship = other.attachedRigidbody.GetComponent<Ship>();
         
-        if (ship != null && GameManager.AreFriendlyFactions(faction, ship.faction) && !repairCoroutines.ContainsKey(ship))
+        if (ship != null && GameManager.AreFriendlyFactions(Faction.FromIndex(factionIndex), ship.faction) && !repairCoroutines.ContainsKey(ship))
             repairCoroutines.Add(ship, StartCoroutine(Repair(ship)));
     }
 

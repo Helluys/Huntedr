@@ -8,7 +8,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69761769c6404bb45bf32b5035a4cc0c, type: 3}
-  m_Name: DummyShipController
+  m_Script: {fileID: 11500000, guid: 136550a757612ef408237d60afe1fab4, type: 3}
+  m_Name: Empty game configuration
   m_EditorClassIdentifier: 
-  name: AI
+  map:
+    prettyName: 
+    sceneName: 
+    teamCount: 0
+  teams: []
