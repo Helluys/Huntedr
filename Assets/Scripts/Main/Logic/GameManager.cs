@@ -41,8 +41,6 @@ public class GameManager : MonoBehaviour {
 
     private void CreateShips () {
         foreach(TeamConfiguration teamConfiguration in gameConfiguration.teams) {
-            SpawningZone spawningZone = spawningZones.Find(sz => sz.factionIndex.Equals(teamConfiguration.faction.index));
-
             foreach (ShipConfiguration shipConfiguration in teamConfiguration.ships) {
                 Ship ship = Instantiate(shipPrefab).GetComponent<Ship>();
                 ship.faction = teamConfiguration.faction;

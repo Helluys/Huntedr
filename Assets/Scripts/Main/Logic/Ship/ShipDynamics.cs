@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using Utilities;
 
 [Serializable]
 public class ShipDynamics {
@@ -7,8 +8,18 @@ public class ShipDynamics {
 
     public Ship ship { get; }
 
-    public Vector3 inputThrust { get; set; }
-    public Vector3 inputTorque { get; set; }
+    private Vector3 _inputThrust;
+    public Vector3 inputThrust {
+        get { return _inputThrust; }
+        set { _inputThrust = MathUtils.ClampVector3(value, -1, 1); }
+    }
+
+    private Vector3 _inputTorque;
+    public Vector3 inputTorque {
+        get { return _inputTorque; }
+        set { _inputTorque = MathUtils.ClampVector3(value, -1, 1); }
+    }
+
     public float inputCushion { get; set; }
     public float inputStabilize { get; set; }
 
@@ -23,7 +34,7 @@ public class ShipDynamics {
 
     public ShipDynamics (Ship holder) {
         ship = holder;
-        
+
         // Instancing model allows per ship instance model variation
         shipDynamicsInstance = UnityEngine.Object.Instantiate(holder.model.dynamicsModel);
 
@@ -44,34 +55,49 @@ public class ShipDynamics {
 
     public void OnFixedUpdate () {
         // Apply forces
-        Vector3 thrust = ThrustFromInput();
-        Vector3 friction = currentFluidDensity * (shipDynamicsInstance.linearFrictionMatrix * localVelocity);
-        rigidbody.AddRelativeForce(thrust + friction, ForceMode.Impulse);
+        this.rigidbody.AddRelativeForce(ComputeThrust(), ForceMode.Impulse);
 
         // Apply torques
-        Vector3 torque = TorqueFromInput();
-        Vector3 rotFromSpeed = currentFluidDensity * (shipDynamicsInstance.linearToRotationMatrix * localVelocity);
-        Vector3 rotFriction = currentFluidDensity * (shipDynamicsInstance.rotationalFrictionMatrix * localAngularVelocity);
-        rigidbody.AddRelativeTorque(torque + rotFromSpeed + rotFriction, ForceMode.Impulse);
+        this.rigidbody.AddRelativeTorque(ComputeTorque(), ForceMode.Impulse);
 
         // Apply controlled dampening
         rigidbody.drag = (Mathf.Atan(inputCushion) / Mathf.PI) * ship.model.dynamicsModel.cushionAbility;
         rigidbody.angularDrag = (Mathf.Atan(inputStabilize) / Mathf.PI) * ship.model.dynamicsModel.stabilizeAbility;
     }
 
+    private Vector3 ComputeThrust () {
+        return ThrustFromInput() + LinearFriction();
+    }
+
     private Vector3 ThrustFromInput () {
-        return new Vector3(
-            (Mathf.Atan(Mathf.Abs(inputThrust.x)) / Mathf.PI) * (inputThrust.x > 0f ? shipDynamicsInstance.maxThrust.x : shipDynamicsInstance.minThrust.x),
-            (Mathf.Atan(Mathf.Abs(inputThrust.y)) / Mathf.PI) * (inputThrust.y > 0f ? shipDynamicsInstance.maxThrust.y : shipDynamicsInstance.minThrust.y),
-            (Mathf.Atan(Mathf.Abs(inputThrust.z)) / Mathf.PI) * (inputThrust.z > 0f ? shipDynamicsInstance.maxThrust.z : shipDynamicsInstance.minThrust.z));
+        Vector3 thrust = Vector3.zero;
+        for (int i = 0; i < 3; i++)
+            thrust[i] = shipDynamicsInstance.flatThrustProfile[i].Evaluate(inputThrust[i]);
+        return thrust;
+    }
+
+    private Vector3 LinearFriction () {
+        return currentFluidDensity * (shipDynamicsInstance.linearFrictionMatrix_linear * localVelocity
+            + shipDynamicsInstance.linearFrictionMatrix_quadratic * Vector3.Scale(localVelocity, localVelocity));
+    }
+
+    private Vector3 ComputeTorque () {
+        return TorqueFromInput() + RotationalFriction();
     }
 
     private Vector3 TorqueFromInput () {
-        float normalizedSpeed = localVelocity.z / shipDynamicsInstance.maxSpeed;
-        return new Vector3(
-            (Mathf.Atan(inputTorque.x) / Mathf.PI) * (shipDynamicsInstance.flatTorque.x + currentFluidDensity * shipDynamicsInstance.torqueProfile[0].Evaluate(normalizedSpeed)),
-            (Mathf.Atan(inputTorque.y) / Mathf.PI) * (shipDynamicsInstance.flatTorque.y + currentFluidDensity * shipDynamicsInstance.torqueProfile[1].Evaluate(normalizedSpeed)),
-            (Mathf.Atan(inputTorque.z) / Mathf.PI) * (shipDynamicsInstance.flatTorque.z + currentFluidDensity * shipDynamicsInstance.torqueProfile[2].Evaluate(normalizedSpeed)));
+        Vector3 torque = Vector3.zero;
+        for (int i = 0; i < 3; i++) {
+            torque[i] = shipDynamicsInstance.flatTorqueProfile[i].Evaluate(inputTorque[i])
+                      + shipDynamicsInstance.dynamicTorqueProfile[i].Evaluate(inputTorque[i] * currentFluidDensity * localVelocity.z);
+        }
+        return torque;
+    }
+
+    private Vector3 RotationalFriction () {
+        return currentFluidDensity * (shipDynamicsInstance.rotationalFrictionMatrix_linear * localAngularVelocity
+            + shipDynamicsInstance.rotationalFrictionMatrix_quadratic * Vector3.Scale(localAngularVelocity, localAngularVelocity)
+            + shipDynamicsInstance.linearToRotationMatrix * localVelocity);
     }
 
 }
