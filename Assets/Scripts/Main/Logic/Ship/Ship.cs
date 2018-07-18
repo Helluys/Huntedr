@@ -9,6 +9,7 @@ public class Ship : MonoBehaviour, IDestructible {
 
     public ShipModel model;
     public ShipStatus status;
+    public ShipEngine engine;
     public ShipDynamics dynamics;
     public ShipController controller;
 
@@ -32,16 +33,9 @@ public class Ship : MonoBehaviour, IDestructible {
         status.OnDeath += OnDeath;
     }
 
-    public void ResetModels () {
-        // Instantiate all non shared data
-        status = new ShipStatus(this);
-        dynamics = new ShipDynamics(this);
-        controllerInstance = controller.CreateInstance(this);
-        SetupWeapons();
-    }
-
     private void Update () {
         controllerInstance.OnUpdate();
+        engine.OnUpdate();
     }
 
     private void FixedUpdate () {
@@ -54,6 +48,15 @@ public class Ship : MonoBehaviour, IDestructible {
             Damage(collision.impulse.magnitude);
     }
     #endregion
+
+    public void ResetModels () {
+        // Instantiate all non shared data
+        status = new ShipStatus(this);
+        engine = new ShipEngine(this);
+        dynamics = new ShipDynamics(this);
+        controllerInstance = controller.CreateInstance(this);
+        SetupWeapons();
+    }
 
     private void SetupWeapons () {
         if (model.weaponSystems.Count > weaponTransforms.Count)

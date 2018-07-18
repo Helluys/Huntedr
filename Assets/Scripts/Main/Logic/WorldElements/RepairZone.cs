@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 public class RepairZone : MonoBehaviour {
 
     public int factionIndex;
     public float repairRate;
+    public float energyRefillRate;
     public float ammunitionRefillRate;
 
     private Dictionary<Ship, Coroutine> repairCoroutines = new Dictionary<Ship, Coroutine>();
@@ -35,6 +37,9 @@ public class RepairZone : MonoBehaviour {
         for (; ; ) {
             // Repair health
             shipToRepair.status.Repair(repairRate * Time.deltaTime);
+
+            // Refill energy
+            shipToRepair.status.RefillEnergy(energyRefillRate * Time.deltaTime);
 
             // Refill ammunition : deal with decimal leftover of refill rate
             ammunitionRefill = ammunitionRefillRate * Time.deltaTime + ammunitionRefillLeftover;

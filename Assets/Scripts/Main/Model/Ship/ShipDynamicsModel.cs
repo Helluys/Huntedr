@@ -45,9 +45,6 @@ public class ShipDynamicsModel : ScriptableObject {
     // The factors that induce torque due to linear friction, multiplied by fluid density and velocitiy to create torque
     public Matrix4x4 linearToRotationMatrix = Matrix4x4.zero;
 
-    public float cushionAbility;
-    public float stabilizeAbility;
-
     public float maxSpeed = 10f;
     
 }

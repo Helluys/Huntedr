@@ -16,10 +16,10 @@ public class StatusPanelView : MonoBehaviour {
     }
 
     private void UpdateHealth (object sender, float healthDelta) {
-        healthField.text = ship.status.GetHealth().ToString();
+        healthField.text = ship.status.GetHealth().ToString("N2");
     }
     private void UpdateEnergy(object sender, float energyDelta) {
-        energyField.text = ship.status.GetEnergy().ToString();
+        energyField.text = ship.status.GetEnergy().ToString("N2");
     }
     private void UpdateAmmunition (object sender, float ammunitionDelta) {
         ammunitionField.text = ship.status.GetAmmunition().ToString();

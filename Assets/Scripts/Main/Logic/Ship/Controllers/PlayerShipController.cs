@@ -28,16 +28,16 @@ public class PlayerShipController : ShipController {
         }
 
         public void OnUpdate () {
-            ship.dynamics.inputThrust =
+            ship.engine.inputThrust =
                 Input.GetAxis("HorizontalThrust") * Vector3.right +
                 Input.GetAxis("VerticalThrust") * Vector3.up +
                 Input.GetAxis("Thrust") * Vector3.forward;
 
             Vector3 cursorPosition = (-Input.GetAxis("Pitch") * Vector3.right + Input.GetAxis("Yaw") * Vector3.up) * model.mouseSensitivity;
-            ship.dynamics.inputTorque = cursorPosition + Input.GetAxis("Roll") * Vector3.forward;
+            ship.engine.inputTorque = cursorPosition + Input.GetAxis("Roll") * Vector3.forward;
 
-            ship.dynamics.inputCushion = Input.GetAxis("Cushion");
-            ship.dynamics.inputStabilize = Input.GetAxis("Stabilize");
+            ship.engine.inputCushion = Input.GetAxis("Cushion");
+            ship.engine.inputStabilize = Input.GetAxis("Stabilize");
 
             if (primaryWeapon != null && Input.GetButton("ShootPrimary"))
                 primaryWeapon.Shoot();

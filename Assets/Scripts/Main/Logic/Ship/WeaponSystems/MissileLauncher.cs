@@ -5,7 +5,8 @@ public class MissileLauncher : WeaponSystem {
 
     [SerializeField] private GameObject missilePrefab;
     [SerializeField] private Transform shootBulletPoint;
-    [SerializeField] private FloatStatistic cooldown = new FloatStatistic(1);
+    [SerializeField] private FloatStatistic cooldown = new FloatStatistic(1f);
+    [SerializeField] private FloatStatistic shootVelocity = new FloatStatistic(1f);
     [SerializeField] private ObjectDetector detector;
 
     private Ship ship;
@@ -48,7 +49,8 @@ public class MissileLauncher : WeaponSystem {
         if (!CanShoot()) return;
 
         var missile = Instantiate(missilePrefab, shootBulletPoint.position, shootBulletPoint.rotation);
-        missile.GetComponent<Rigidbody>().velocity = ship.GetComponent<Rigidbody>().GetPointVelocity(shootBulletPoint.position);
+        missile.GetComponent<Rigidbody>().velocity = ship.GetComponent<Rigidbody>().GetPointVelocity(shootBulletPoint.position)
+                                                        + shootVelocity * shootBulletPoint.forward;
         missile.GetComponent<Missile>().target = lockedTarget;
 
         allowedShootTime = Time.time + cooldown;

@@ -16,7 +16,7 @@ public class DummyShipController : ShipController {
         }
 
         public void OnUpdate () {
-            ship.dynamics.inputThrust = Vector3.forward;
+            ship.engine.inputThrust = Vector3.forward;
         }
     }
 }

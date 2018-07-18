@@ -6,4 +6,5 @@ public class ShipModel : ScriptableObject {
     public ShipDynamicsModel dynamicsModel;
     public ShipStatusModel statusModel;
     public List<GameObject> weaponSystems;
+    public ShipEngineModel engineModel;
 }

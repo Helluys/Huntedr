@@ -19,7 +19,8 @@ public class MachineGun : WeaponSystem {
         if (!CanShoot()) return;
 
         var bullet = Instantiate(bulletPrefab, shootBulletPoint.position, shootBulletPoint.rotation * Quaternion.Euler(90f, 0f, 0f));
-        bullet.GetComponent<Rigidbody>().velocity = shootBulletPoint.transform.forward * bulletVelocity;
+        bullet.GetComponent<Rigidbody>().velocity = ship.GetComponent<Rigidbody>().GetPointVelocity(shootBulletPoint.position)
+                                                    + shootBulletPoint.transform.forward * bulletVelocity;
         allowedShootTime = Time.time + 1f / shootRate;
     }
 

@@ -54,6 +54,10 @@ public class ShipStatus {
         return killed;
     }
 
+    internal void RefillEnergy (object p) {
+        throw new NotImplementedException();
+    }
+
     public void Destroy () {
         health = 0f;
         
