@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 
 public class MachineGun : WeaponSystem {
-
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform shootBulletPoint;
 
     [SerializeField] private FloatStatistic shootRate = new FloatStatistic(5);
     [SerializeField] private FloatStatistic bulletVelocity = new FloatStatistic(150);
+    [SerializeField] private uint ammunitionPerUse = 1;
+    [SerializeField] private float energyPerUse = 0.1f;
 
     private Ship ship;
     private float allowedShootTime;
@@ -18,6 +19,9 @@ public class MachineGun : WeaponSystem {
     public override void Shoot () {
         if (!CanShoot()) return;
 
+        ship.status.TryUseAmmunition(ammunitionPerUse);
+        ship.status.TryUseEnergy(energyPerUse);
+
         var bullet = Instantiate(bulletPrefab, shootBulletPoint.position, shootBulletPoint.rotation * Quaternion.Euler(90f, 0f, 0f));
         bullet.GetComponent<Rigidbody>().velocity = ship.GetComponent<Rigidbody>().GetPointVelocity(shootBulletPoint.position)
                                                     + shootBulletPoint.transform.forward * bulletVelocity;
@@ -25,7 +29,9 @@ public class MachineGun : WeaponSystem {
     }
 
     private bool CanShoot () {
-        return Time.time > allowedShootTime && ship.status.TryUseAmmunition(1);
+        return Time.time > allowedShootTime 
+            && ship.status.GetAmmunition() > ammunitionPerUse 
+            && ship.status.GetEnergy() > energyPerUse;
     }
 
     protected override void ApplyModifier (FloatStatistic.Modifier modifier) {

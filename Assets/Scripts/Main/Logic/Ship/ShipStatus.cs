@@ -11,6 +11,9 @@ public class ShipStatus {
     public event EventHandler<Ship> OnDeath;
 
     public Ship ship { get; }
+
+    public bool isDestroyed { get; private set; } = false;
+
     [SerializeField] private float health;
     [SerializeField] private float energy;
     [SerializeField] private uint ammunition;

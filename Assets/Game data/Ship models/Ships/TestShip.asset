@@ -16,3 +16,4 @@ MonoBehaviour:
   weaponSystems:
   - {fileID: 1858413197208088, guid: d9ba04924b8f4e04e973d3b1de472373, type: 2}
   - {fileID: 1008664066544640, guid: 17d1279fcac1abd4287e961772e265a4, type: 2}
+  engineModel: {fileID: 11400000, guid: 0a897d8aba894264698eb1af57432780, type: 2}

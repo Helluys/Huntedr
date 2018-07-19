@@ -15,6 +15,9 @@ public class GameManager : MonoBehaviour {
     [SerializeField] ShipController playerController;
 
     [SerializeField] private List<SpawningZone> spawningZones = new List<SpawningZone>();
+    [SerializeField] private float killDistance;
+
+    private List<Ship> shipList = new List<Ship>();
 
     private void SetUpSingleton () {
         if (instance != null)
@@ -29,6 +32,12 @@ public class GameManager : MonoBehaviour {
         CreateShips();
 
         winConditions.Setup();
+    }
+
+    private void Update () {
+        foreach (Ship ship in shipList)
+            if (ship.transform.position.magnitude > killDistance)
+                ship.Destroy();
     }
 
     public static bool AreFriendlyFactions (Faction faction1, Faction faction2) {
@@ -49,6 +58,7 @@ public class GameManager : MonoBehaviour {
                 ship.model = shipConfiguration.shipModel;
                 ship.controller = shipConfiguration.shipController;
 
+                shipList.Add(ship);
                 if (shipConfiguration.shipController.Equals(playerController))
                     playerList.Add(ship);
 

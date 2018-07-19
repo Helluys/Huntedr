@@ -27,6 +27,10 @@ public class PlayerShipController : ShipController {
             ship = holder;
         }
 
+        public void OnStart() {
+
+        }
+
         public void OnUpdate () {
             ship.engine.inputThrust =
                 Input.GetAxis("HorizontalThrust") * Vector3.right +

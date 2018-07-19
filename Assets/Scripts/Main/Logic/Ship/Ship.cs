@@ -31,6 +31,8 @@ public class Ship : MonoBehaviour, IDestructible {
 
         status.OnHealthChanged += OnHealthChanged;
         status.OnDeath += OnDeath;
+
+        controllerInstance.OnStart();
     }
 
     private void Update () {
@@ -110,7 +112,8 @@ public class Ship : MonoBehaviour, IDestructible {
     }
 
     public void Destroy () {
-        status.Destroy();
+        if (!isDestroyed)
+            status.Destroy();
     }
     #endregion
 }

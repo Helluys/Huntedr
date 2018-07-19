@@ -13,4 +13,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Player
   shipModel: {fileID: 11400000, guid: f59b4fd3c72e920429c1b9c5bec51925, type: 2}
-  controller: {fileID: 11400000, guid: 887567b244bea974bbabc8e9685869a1, type: 2}
+  shipController: {fileID: 11400000, guid: 887567b244bea974bbabc8e9685869a1, type: 2}

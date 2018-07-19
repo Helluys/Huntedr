@@ -7,6 +7,8 @@ public class MissileLauncher : WeaponSystem {
     [SerializeField] private Transform shootBulletPoint;
     [SerializeField] private FloatStatistic cooldown = new FloatStatistic(1f);
     [SerializeField] private FloatStatistic shootVelocity = new FloatStatistic(1f);
+    [SerializeField] private uint ammunitionPerUse = 1;
+    [SerializeField] private float energyPerUse = 1f;
     [SerializeField] private ObjectDetector detector;
 
     private Ship ship;
@@ -48,6 +50,9 @@ public class MissileLauncher : WeaponSystem {
     public override void Shoot () {
         if (!CanShoot()) return;
 
+        ship.status.TryUseAmmunition(ammunitionPerUse);
+        ship.status.TryUseEnergy(energyPerUse);
+
         var missile = Instantiate(missilePrefab, shootBulletPoint.position, shootBulletPoint.rotation);
         missile.GetComponent<Rigidbody>().velocity = ship.GetComponent<Rigidbody>().GetPointVelocity(shootBulletPoint.position)
                                                         + shootVelocity * shootBulletPoint.forward;
@@ -57,7 +62,9 @@ public class MissileLauncher : WeaponSystem {
     }
 
     private bool CanShoot () {
-        return Time.time > allowedShootTime && ship.status.TryUseAmmunition(1);
+        return Time.time > allowedShootTime 
+            && ship.status.GetAmmunition() >= ammunitionPerUse 
+            && ship.status.GetEnergy() > energyPerUse;
     }
 
     protected override void ApplyModifier (FloatStatistic.Modifier modifier) {
