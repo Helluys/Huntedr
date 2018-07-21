@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-[System.Serializable]
+[Serializable]
 public class ShipDynamics {
     private const float MAXIMUM_ANGULAR_VELOCITY = 30f;
 

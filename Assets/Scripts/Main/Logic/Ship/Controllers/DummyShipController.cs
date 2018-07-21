@@ -23,11 +23,12 @@ public class DummyShipController : ShipController {
 
         public void OnUpdate () {
             // Everything is done in coroutine
+            ship.weaponSystems[0].GetComponent<WeaponSystem>()?.Shoot();
         }
 
         private IEnumerator UpdateInput () {
-            ship.engine.inputThrust = new Vector3().RandomRange(-1f, 1f);
-            ship.engine.inputTorque= new Vector3().RandomRange(-1f, 1f);
+            //ship.engine.inputThrust = new Vector3().RandomRange(-1f, 1f);
+            //ship.engine.inputTorque= new Vector3().RandomRange(-1f, 1f);
             yield return waitOneSecond;
         }
     }

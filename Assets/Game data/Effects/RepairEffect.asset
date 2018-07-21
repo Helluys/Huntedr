@@ -11,6 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4b0c5a2def3f6947a8d2b030599e770, type: 3}
   m_Name: RepairEffect
   m_EditorClassIdentifier: 
+  name: RefillEffect
   duration: 5
   endCondition: 1
   repeatType: 1

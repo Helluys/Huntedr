@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4662468280187580}
   - component: {fileID: 54812058412268038}
   - component: {fileID: 114165592101067308}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Mine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 33441388337383324}
   - component: {fileID: 135661212020984396}
   - component: {fileID: 23563431663856134}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -66,7 +66,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1623376303024430}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.3074503, y: 20.629997, z: -126.845795}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4404696202901076}
@@ -86,6 +86,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 23f6f206a78656548915fd6669a76da4, type: 2}
   m_StaticBatchInfo:

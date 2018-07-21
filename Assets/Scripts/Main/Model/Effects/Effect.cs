@@ -14,15 +14,17 @@ public abstract class Effect : ScriptableObject {
         AtStartup, EveryFrame
     }
 
+    new public string name;
+
     public float duration;
-
-    private Coroutine repeatCoroutine;
-
-    protected Ship target;
 
     public EndCondition endCondition;
 
     public RepeatType repeatType;
+
+    private Coroutine repeatCoroutine;
+
+    protected Ship target;
 
     public bool active { get; protected set; }
 

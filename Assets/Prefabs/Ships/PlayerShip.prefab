@@ -794,6 +794,9 @@ MonoBehaviour:
   dynamics:
     shipDynamicsInstance: {fileID: 0}
   controller: {fileID: 11400000, guid: 887567b244bea974bbabc8e9685869a1, type: 2}
+  abilities:
+    abilities:
+    - {fileID: 11400000, guid: 951a72171b2c1ac49ae67c84b7a0b8c1, type: 2}
   faction: {fileID: 11400000, guid: 385e4ab66fd092c4cbe00ed831eb6e8d, type: 2}
   weaponTransforms:
   - {fileID: 4211455791979820}

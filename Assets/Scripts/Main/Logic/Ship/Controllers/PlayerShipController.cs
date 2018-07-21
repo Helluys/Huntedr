@@ -28,7 +28,7 @@ public class PlayerShipController : ShipController {
         }
 
         public void OnStart() {
-
+            // Nothing to initialize
         }
 
         public void OnUpdate () {
@@ -48,6 +48,11 @@ public class PlayerShipController : ShipController {
 
             if (secondaryWeapon != null && Input.GetButton("ShootSecondary"))
                 secondaryWeapon.Shoot();
+
+            if (Input.GetButtonDown("Ability1"))
+                ship.abilities.UseAbility(0);
+            if (Input.GetButtonUp("Ability1"))
+                ship.abilities.ReleaseAbility(0);
         }
     }
     #endregion unshared state

@@ -11,6 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c8f10ad6e723bf45b8e7c34ae6bc0ce, type: 3}
   m_Name: RefillAmmunitionEffect
   m_EditorClassIdentifier: 
+  name: RefillAmmunition
   duration: 5
   endCondition: 1
   repeatType: 1

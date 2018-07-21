@@ -6,6 +6,8 @@ using UnityEngine;
 [Serializable]
 public class FloatStatistic {
 
+    public event EventHandler<float> OnValueChanged;
+
     [Serializable]
     public class Modifier {
         public enum Type {
@@ -49,10 +51,12 @@ public class FloatStatistic {
 
     public void AddModifier (Modifier modifier) {
         modifiers.Add(modifier);
+        OnValueChanged?.Invoke(this, value);
     }
 
     public void RemoveModifier (Modifier modifier) {
         modifiers.Remove(modifier);
+        OnValueChanged?.Invoke(this, value);
     }
 
     public static implicit operator float(FloatStatistic s) {

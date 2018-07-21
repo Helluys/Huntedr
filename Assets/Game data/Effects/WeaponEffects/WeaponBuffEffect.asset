@@ -11,6 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efe21c9f812b6ca48a9fa0ffac7203b1, type: 3}
   m_Name: WeaponBuffEffect
   m_EditorClassIdentifier: 
+  name: WeaponBuff
   duration: 5
   endCondition: 1
   repeatType: 0

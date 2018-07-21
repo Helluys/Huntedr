@@ -12,6 +12,7 @@ public class Ship : MonoBehaviour, IDestructible {
     public ShipEngine engine;
     public ShipDynamics dynamics;
     public ShipController controller;
+    public ShipAbilities abilities;
 
     public Faction faction;
 
@@ -31,6 +32,8 @@ public class Ship : MonoBehaviour, IDestructible {
 
         status.OnHealthChanged += OnHealthChanged;
         status.OnDeath += OnDeath;
+
+        abilities.OnStart(this);
 
         controllerInstance.OnStart();
     }
@@ -79,13 +82,13 @@ public class Ship : MonoBehaviour, IDestructible {
             GameObjectUtils.SetColorRecursive(modelTransform, faction.primaryColor, faction.secondaryColor);
     }
 
-    private void OnDeath (object sender, Ship e) {
+    private void OnDeath (object sender, Ship ship) {
         // Stop all movement
         Rigidbody rigidbody = GetComponent<Rigidbody>();
         rigidbody.velocity = Vector3.zero;
         rigidbody.angularVelocity = Vector3.zero;
 
-        // Deactivate object and udate destruction state
+        // Deactivate object and update destruction state
         gameObject.SetActive(false);
         isDestroyed = true;
         if (OnDestruction != null)

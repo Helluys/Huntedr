@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ed8b21efed55994097572e4e6bf507b, type: 3}
+  m_Name: Player solo team 1
+  m_EditorClassIdentifier: 
+  name: Crimson Strikers
+  faction: {fileID: 11400000, guid: 385e4ab66fd092c4cbe00ed831eb6e8d, type: 2}
+  ships:
+  - {fileID: 11400000, guid: 3cad06700b160a646846980bc72650a9, type: 2}
