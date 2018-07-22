@@ -5,18 +5,24 @@ using UnityEngine;
 public abstract class TriggeredAbility : Ability {
 
     [SerializeField] private float triggerDelay;
+    [SerializeField] private float usageEnergyConsumption = 1f;
 
     protected abstract class TriggeredAbilityInstance : Instance {
 
-        [SerializeField] private FloatStatistic triggerDelay = new FloatStatistic(1f);
+        [SerializeField] protected FloatStatistic triggerDelay = new FloatStatistic(1f);
+        protected Ship caster;
+        protected TriggeredAbility model;
+
         private WaitForSeconds delayYield = new WaitForSeconds(0f);
-        private Ship caster;
 
         public override sealed CastType castType { get { return CastType.Triggered; } }
+        public override bool isAvailable { get { return base.isAvailable && caster.status.GetEnergy() > model.usageEnergyConsumption; } }
 
-        public TriggeredAbilityInstance (Ship casterShip, float delay) {
+        public TriggeredAbilityInstance (Ship casterShip, TriggeredAbility model) {
             caster = casterShip;
-            this.triggerDelay = new FloatStatistic(delay);
+            this.model = model;
+
+            this.triggerDelay = new FloatStatistic(model.triggerDelay);
             delayYield = new WaitForSeconds(triggerDelay.value);
             triggerDelay.OnValueChanged += UpdateDelayYield;
         }

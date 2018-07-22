@@ -16,4 +16,4 @@ MonoBehaviour:
   shieldSpawnOffset: {x: 0, y: 0, z: 5}
   shieldSpawnOrientation: {x: 0, y: 0, z: 0}
   creationEnergyConsumption: 5
-  holdEnergyConsumption: 1
+  holdEnergyConsumption: 5
