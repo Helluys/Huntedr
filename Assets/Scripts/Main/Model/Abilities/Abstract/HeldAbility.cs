@@ -9,12 +9,11 @@ public abstract class HeldAbility : Ability {
         public override sealed CastType castType { get { return CastType.Held; } }
         public override bool isAvailable { get { return base.isAvailable && coroutine == null; } }
 
-        protected Ship caster;
         private Coroutine coroutine;
         private bool holdAbility = false;
 
-        public HeldAbilityInstance (Ship casterShip) {
-            caster = casterShip;
+        public HeldAbilityInstance (Ship caster) : base(caster) {
+            // Nothing to do
         }
 
         public sealed override void Use () {

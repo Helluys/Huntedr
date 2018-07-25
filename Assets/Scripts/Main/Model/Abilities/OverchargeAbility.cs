@@ -14,7 +14,7 @@ public class OverchargeAbility : TriggeredAbility {
 
         public override string name { get { return "Overcharge"; } }
 
-        public OverchargeAbilityInstance (Ship casterShip, OverchargeAbility model) : base(casterShip, model) {
+        public OverchargeAbilityInstance (Ship caster, OverchargeAbility model) : base(caster, model) {
         }
 
         protected override void Trigger () {

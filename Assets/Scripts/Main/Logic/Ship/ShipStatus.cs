@@ -23,6 +23,10 @@ public class ShipStatus {
 
     private List<Effect> effects = new List<Effect>();
 
+    internal void Repair (object p) {
+        throw new NotImplementedException();
+    }
+
     public ShipStatus (Ship holder) {
         ship = holder;
         shipStatusInstance = UnityEngine.Object.Instantiate(ship.model.statusModel);
@@ -158,6 +162,10 @@ public class ShipStatus {
     #endregion
 
     #region effects
+
+    public IReadOnlyCollection<Effect> GetEffectList() {
+        return effects.AsReadOnly();
+    }
 
     public void AddEffect(Effect effect) {
         if (!effects.Contains(effect)) {

@@ -9,7 +9,6 @@ public class GameManager : MonoBehaviour {
     public WinCondition winConditions;
 
     public GameConfiguration gameConfiguration;
-    public List<Ship> playerList = new List<Ship>();
 
     [SerializeField] GameObject shipPrefab;
     [SerializeField] ShipController playerController;
@@ -17,7 +16,11 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private List<SpawningZone> spawningZones = new List<SpawningZone>();
     [SerializeField] private float killDistance;
 
-    private List<Ship> shipList = new List<Ship>();
+    private List<Ship> _playerList = new List<Ship>();
+    private List<Ship> _shipList = new List<Ship>();
+
+    public IReadOnlyList<Ship> playerList { get { return _playerList.AsReadOnly(); } }
+    public IReadOnlyList<Ship> shipList { get { return _shipList.AsReadOnly(); } }
 
     private void SetUpSingleton () {
         if (instance != null)
@@ -26,16 +29,16 @@ public class GameManager : MonoBehaviour {
             instance = this;
     }
 
-    private void Start() {
+    private void Start () {
         SetUpSingleton();
-        
+
         CreateShips();
 
         winConditions.Setup();
     }
 
     private void Update () {
-        foreach (Ship ship in shipList)
+        foreach (Ship ship in _shipList)
             if (ship.transform.position.magnitude > killDistance)
                 ship.Destroy();
     }
@@ -44,12 +47,12 @@ public class GameManager : MonoBehaviour {
         return faction1 == faction2;
     }
 
-    public static SpawningZone GetSpawningZone(Faction faction) {
+    public static SpawningZone GetSpawningZone (Faction faction) {
         return instance.spawningZones[faction.index];
     }
 
     private void CreateShips () {
-        foreach(TeamConfiguration teamConfiguration in gameConfiguration.teams) {
+        foreach (TeamConfiguration teamConfiguration in gameConfiguration.teams) {
             foreach (ShipConfiguration shipConfiguration in teamConfiguration.ships) {
                 Ship ship = Instantiate(shipPrefab).GetComponent<Ship>();
                 ship.faction = teamConfiguration.faction;
@@ -58,9 +61,9 @@ public class GameManager : MonoBehaviour {
                 ship.model = shipConfiguration.shipModel;
                 ship.controller = shipConfiguration.shipController;
 
-                shipList.Add(ship);
+                _shipList.Add(ship);
                 if (shipConfiguration.shipController.Equals(playerController))
-                    playerList.Add(ship);
+                    _playerList.Add(ship);
 
                 ship.ResetModels();
                 ship.Respawn();
