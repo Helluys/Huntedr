@@ -796,7 +796,7 @@ MonoBehaviour:
   controller: {fileID: 0}
   abilities:
     abilities:
-    - {fileID: 11400000, guid: a837eca7ad3de4b4ea1b4302caaf7601, type: 2}
+    - {fileID: 11400000, guid: e86224b66c8d97d41a5e7c23289131f5, type: 2}
   faction: {fileID: 0}
   weaponTransforms:
   - {fileID: 4211455791979820}

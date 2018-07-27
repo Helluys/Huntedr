@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+
 using UnityEngine;
 
 public class MissileLauncher : WeaponSystem {
@@ -12,7 +13,7 @@ public class MissileLauncher : WeaponSystem {
     [SerializeField] private ObjectDetector detector;
 
     private Ship ship;
-    
+
     private float allowedShootTime;
 
     private List<Ship> detectedShips = new List<Ship>();
@@ -22,23 +23,46 @@ public class MissileLauncher : WeaponSystem {
         detector.OnObjectDetected += Detector_OnObjectDetected;
         detector.OnObjectLost += Detector_OnObjectLost;
     }
-    
+
     private void Update () {
-        lockedTarget = null;
+        SearchTarget();
+    }
+
+    private void SearchTarget () {
+        Ship newTarget = null;
+
         foreach (Ship detectedShip in detectedShips) {
-            if (detectedShip.faction.Equals(ship.faction))
+            if (detectedShip.faction.Equals(ship.faction) || detectedShip.isDestroyed)
                 continue;
-            else if (lockedTarget == null)
-                lockedTarget = detectedShip.transform;
+            else if (newTarget == null)
+                    newTarget = detectedShip;
             else {
-                float lockedTargetDistance = (lockedTarget.position - transform.position).magnitude;
+                float lockedTargetDistance = (newTarget.transform.position - transform.position).magnitude;
                 float detectedShipDistance = (detectedShip.transform.position - transform.position).magnitude;
 
                 if (detectedShipDistance < lockedTargetDistance)
-                    lockedTarget = detectedShip.transform;
+                    newTarget = detectedShip;
             }
-
         }
+
+        SetLockedTarget(newTarget);
+    }
+
+    private void SetLockedTarget (Ship detectedShip) {
+        if ((detectedShip == null && lockedTarget == null) || (detectedShip != null && detectedShip.transform.Equals(lockedTarget)))
+            return;
+
+        if (lockedTarget != null)
+            lockedTarget.GetComponent<Ship>().OnDestruction -= OnTargetDestruction;
+
+        lockedTarget = detectedShip?.transform;
+
+        if (lockedTarget != null)
+            lockedTarget.GetComponent<Ship>().OnDestruction += OnTargetDestruction;
+    }
+
+    private void OnTargetDestruction (object sender, IDestructible target) {
+        SearchTarget();
     }
 
     #region WeaponSystem interface
@@ -62,8 +86,8 @@ public class MissileLauncher : WeaponSystem {
     }
 
     private bool CanShoot () {
-        return Time.time > allowedShootTime 
-            && ship.status.GetAmmunition() >= ammunitionPerUse 
+        return Time.time > allowedShootTime
+            && ship.status.GetAmmunition() >= ammunitionPerUse
             && ship.status.GetEnergy() > energyPerUse;
     }
 
@@ -81,7 +105,7 @@ public class MissileLauncher : WeaponSystem {
     #region ship detection
 
     private void Detector_OnObjectDetected (object sender, Collider collider) {
-    Ship foundShip = collider.attachedRigidbody?.GetComponent<Ship>();
+        Ship foundShip = collider.attachedRigidbody?.GetComponent<Ship>();
         if (foundShip != null && !detectedShips.Contains(foundShip))
             detectedShips.Add(foundShip);
     }

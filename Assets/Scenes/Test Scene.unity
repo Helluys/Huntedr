@@ -311,9 +311,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b2b54fa2d294de4e9292d716a4485ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  trackedTransform: {fileID: 0}
   offset: {x: 0, y: 2, z: -12}
-  rotation: {x: 0, y: 0, z: 0}
+  rotationOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &1234367279
 GameObject:
   m_ObjectHideFlags: 0
@@ -355,7 +355,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 5, y: 5, z: 5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1234367282
 MeshRenderer:
@@ -453,7 +453,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 5, y: 5, z: 5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1332291901
 MeshRenderer:
@@ -538,8 +538,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   winConditions: {fileID: 11400000, guid: bee0bb6e7af46a8408b21080fa074c6a, type: 2}
-  gameConfiguration: {fileID: 11400000, guid: c5225f1969acc8348b1863ea11aa4e76, type: 2}
-  playerList: []
+  gameConfiguration: {fileID: 11400000, guid: 712c1e5956180ec46aeebdbef623d869, type: 2}
   shipPrefab: {fileID: 1515649526068412, guid: 06c6b874b1d637846ad3b5ab7555a050, type: 2}
   playerController: {fileID: 11400000, guid: 887567b244bea974bbabc8e9685869a1, type: 2}
   spawningZones:

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerDelay: 0
   usageEnergyConsumption: 1
-  targetPicker: {fileID: 0}
-  dronePrefab: {fileID: 0}
-  spawnOffset: {x: 0, y: 0, z: 0}
+  targetPicker: {fileID: 11400000, guid: d8f3f99bee7c4184ca399331fd2345d4, type: 2}
+  dronePrefab: {fileID: 1694386419243454, guid: 240aaddd9884dea48b6313c01b8de30b,
+    type: 2}
+  spawnOffset: {x: 0, y: 3, z: 3}

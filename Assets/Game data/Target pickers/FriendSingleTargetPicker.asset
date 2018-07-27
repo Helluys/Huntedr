@@ -9,6 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 04bfafe9143f9f040b0987f6877a1b01, type: 3}
-  m_Name: SingleTargetPicker
+  m_Name: FriendSingleTargetPicker
   m_EditorClassIdentifier: 
-  sameFaction: 0
+  uiPrefab: {fileID: 1426234811044152, guid: af114e1d5fc751647bb17d2477518846, type: 2}
+  sameFaction: 1

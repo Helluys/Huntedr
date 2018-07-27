@@ -54,6 +54,7 @@ public class Ship : MonoBehaviour, IDestructible {
     }
     #endregion
 
+    #region initialization
     public void ResetModels () {
         // Instantiate all non shared data
         status = new ShipStatus(this);
@@ -81,6 +82,7 @@ public class Ship : MonoBehaviour, IDestructible {
         if (modelTransform != null)
             GameObjectUtils.SetColorRecursive(modelTransform, faction.primaryColor, faction.secondaryColor);
     }
+    #endregion
 
     private void OnDeath (object sender, Ship ship) {
         // Stop all movement

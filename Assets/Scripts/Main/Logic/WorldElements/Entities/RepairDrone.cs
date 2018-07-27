@@ -14,11 +14,11 @@ public class RepairDrone : MonoBehaviour {
     void Update () {
         if (target != null) {
             float distance = (target.transform.position - transform.position).magnitude;
-            if (distance > reachDistance) {
+            if (distance > 0.8f * reachDistance)
                 transform.position = Vector3.SmoothDamp(transform.position, target.transform.position, ref currentVelocity, 1f / acceleration, maxSpeed, Time.deltaTime);
-            } else {
+
+            if (distance < reachDistance)
                 target.status.Repair(repairRate * Time.deltaTime);
-            }
         }
     }
 }

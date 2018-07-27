@@ -4,23 +4,25 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
-    public static GameManager instance;
+    public static GameManager instance { get; private set; }
+
+    public static Canvas uiCanvas { get; private set; }
 
     public WinCondition winConditions;
 
     public GameConfiguration gameConfiguration;
 
-    [SerializeField] GameObject shipPrefab;
-    [SerializeField] ShipController playerController;
+    public IReadOnlyList<Ship> playerList { get { return _playerList.AsReadOnly(); } }
+    public IReadOnlyList<Ship> shipList { get { return _shipList.AsReadOnly(); } }
+
+    [SerializeField] private GameObject shipPrefab;
+    [SerializeField] private ShipController playerController;
 
     [SerializeField] private List<SpawningZone> spawningZones = new List<SpawningZone>();
     [SerializeField] private float killDistance;
 
     private List<Ship> _playerList = new List<Ship>();
     private List<Ship> _shipList = new List<Ship>();
-
-    public IReadOnlyList<Ship> playerList { get { return _playerList.AsReadOnly(); } }
-    public IReadOnlyList<Ship> shipList { get { return _shipList.AsReadOnly(); } }
 
     private void SetUpSingleton () {
         if (instance != null)
@@ -31,6 +33,8 @@ public class GameManager : MonoBehaviour {
 
     private void Start () {
         SetUpSingleton();
+
+        uiCanvas = FindObjectOfType<Canvas>();
 
         CreateShips();
 

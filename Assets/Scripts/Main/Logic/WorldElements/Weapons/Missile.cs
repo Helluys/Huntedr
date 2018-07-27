@@ -13,7 +13,27 @@ public class Missile : MonoBehaviour {
     [SerializeField] private float speed = 15f;
     [Tooltip("In degrees per second")] [SerializeField] private float maxAngularSpeed = 180f;
 
-    public Transform target;
+    private Transform _target;
+    public Transform target {
+        get { return _target; }
+        set {
+            if (_target != null) {
+                IDestructible targetDestructible = _target.GetComponent<IDestructible>();
+                if (targetDestructible != null)
+                    _target.GetComponent<IDestructible>().OnDestruction -= OnTargetDestruction;
+
+            }
+
+            _target = value;
+
+            if (_target != null) {
+                IDestructible targetDestructible = _target.GetComponent<IDestructible>();
+                if (targetDestructible != null)
+                    _target.GetComponent<IDestructible>().OnDestruction += OnTargetDestruction;
+
+            }
+        }
+    }
 
     private new Rigidbody rigidbody;
 
@@ -23,6 +43,7 @@ public class Missile : MonoBehaviour {
         rigidbody = GetComponent<Rigidbody>();
         if (explosionTimeout > 0f)
             Invoke("Explode", explosionTimeout);
+
     }
 
     private void FixedUpdate () {
@@ -55,7 +76,6 @@ public class Missile : MonoBehaviour {
                 RaycastHit hitInfo = new RaycastHit();
                 Physics.Raycast(ray, out hitInfo, Mathf.Infinity, ~0, QueryTriggerInteraction.Ignore);
 
-                Debug.Log(hitInfo.collider?.name);
                 if (hitInfo.collider?.attachedRigidbody == attachedRigidbody && hitInfo.collider.gameObject.layer != LayerMask.NameToLayer("Shield")) {
                     if (!hitBodies.ContainsKey(attachedRigidbody))
                         hitBodies.Add(attachedRigidbody, closestPoint);
@@ -80,5 +100,9 @@ public class Missile : MonoBehaviour {
 
         exploded = true;
         Destroy(gameObject);
+    }
+
+    private void OnTargetDestruction(object sender, IDestructible destructible) {
+        target = null;
     }
 }
