@@ -88,7 +88,7 @@ public class Missile : MonoBehaviour {
         // Apply damage and force to hit rigidbodies
         foreach (KeyValuePair<Rigidbody, Vector3> hitBody in hitBodies) {
             float distance = (hitBody.Value - transform.position).magnitude / explosionRadius;
-            float damage = explosionForce * Mathf.Max(1f - distance, 0f);
+            float damage = this.explosionForce * Mathf.Max(1f - distance, 0f);
             hitBody.Key.AddForce(damage * (hitBody.Key.transform.position - transform.position));
 
             IDestructible hitTarget = hitBody.Key.GetComponent<IDestructible>();

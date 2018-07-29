@@ -68,7 +68,7 @@ public class Ship : MonoBehaviour, IDestructible {
         if (model.weaponSystems.Count > weaponTransforms.Count)
             Debug.LogError("Too many weapon systems on this ship", gameObject);
 
-        int weaponCount = Mathf.Min(model.weaponSystems.Count, weaponTransforms.Count);
+        int weaponCount = Mathf.Min(this.model.weaponSystems.Count, this.weaponTransforms.Count);
         weaponSystems = new List<GameObject>(weaponCount);
         for (int i = 0; i < weaponCount; i++) {
             GameObject weaponSystemGO = Instantiate(model.weaponSystems[i], weaponTransforms[i]);

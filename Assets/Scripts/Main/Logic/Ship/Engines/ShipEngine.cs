@@ -22,13 +22,13 @@ public class ShipEngine {
     private float _inputCushion;
     public float inputCushion {
         get { return _inputCushion; }
-        set { _inputCushion = Mathf.Clamp01(value); }
+        set { this._inputCushion = Mathf.Clamp01(value); }
     }
 
     private float _intputStabilize;
     public float inputStabilize {
         get { return _intputStabilize; }
-        set { _intputStabilize = Mathf.Clamp01(value); }
+        set { this._intputStabilize = Mathf.Clamp01(value); }
     }
 
     public ShipEngine (Ship holder) {
@@ -62,15 +62,14 @@ public class ShipEngine {
     }
 
     public virtual float outputCushion {
-        get { return (Mathf.Atan(inputCushion) / Mathf.PI) * shipEngineInstance.cushionAbility; }
+        get { return (Mathf.Atan(this.inputCushion) / Mathf.PI) * this.shipEngineInstance.cushionAbility; }
     }
 
     public virtual float outputStabilize {
-        get { return (Mathf.Atan(inputStabilize) / Mathf.PI) * shipEngineInstance.stabilizeAbility; }
+        get { return (Mathf.Atan(this.inputStabilize) / Mathf.PI) * this.shipEngineInstance.stabilizeAbility; }
     }
 
     private void ThrottleInput () {
-
         Vector3 originalThrust = inputThrust;
         Vector3 originalTorque = inputTorque;
         float originalCushion = inputCushion;

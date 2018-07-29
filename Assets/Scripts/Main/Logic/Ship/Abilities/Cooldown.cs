@@ -8,7 +8,7 @@ public class Cooldown {
     
     public bool isAvailable { get { return Time.time >= lastUseTime + time.value; } }
 
-    public float remainingTime { get { return Mathf.Max(0f, lastUseTime + time.value - Time.time); } }
+    public float remainingTime { get { return Mathf.Max(0f, this.lastUseTime + this.time.value - Time.time); } }
 
     public Cooldown (float time = 1f) {
         this.time = new FloatStatistic(time);

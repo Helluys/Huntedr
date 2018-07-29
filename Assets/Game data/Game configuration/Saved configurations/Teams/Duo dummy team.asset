@@ -9,9 +9,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1ed8b21efed55994097572e4e6bf507b, type: 3}
-  m_Name: Solo AI test team 2
+  m_Name: Duo dummy team
   m_EditorClassIdentifier: 
-  name: The Hive
-  faction: {fileID: 11400000, guid: 5afb7398408e77a4fae755d7a6930344, type: 2}
+  name: Steel Legion
+  faction: {fileID: 11400000, guid: 37b43f7feb252324eb724c2c04b1fa7f, type: 2}
   ships:
-  - {fileID: 11400000, guid: c97b43596718d224981e537a27c7033c, type: 2}
+  - {fileID: 11400000, guid: 214e1fb396b0d3e48bc7c6b5a069678c, type: 2}
+  - {fileID: 11400000, guid: 214e1fb396b0d3e48bc7c6b5a069678c, type: 2}

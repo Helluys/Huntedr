@@ -7,7 +7,7 @@ public class DummyShipController : ShipControllerModel {
 
     [SerializeField] private bool shoot = false;
     [SerializeField] private bool move = false;
-
+    
     public override Instance CreateInstance (Ship holder) {
         return new DummyShipControllerInstance(holder, this);
     }
@@ -38,6 +38,9 @@ public class DummyShipController : ShipControllerModel {
                 if (model.move) {
                     ship.engine.inputThrust = new Vector3().RandomRange(-1f, 1f);
                     ship.engine.inputTorque = new Vector3().RandomRange(-1f, 1f);
+                    Debug.Log("Update inputs");
+                    Debug.Log(ship.engine.inputThrust);
+                    Debug.Log(ship.engine.inputTorque);
                 }
 
                 yield return waitOneSecond;

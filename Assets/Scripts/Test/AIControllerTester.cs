@@ -2,11 +2,12 @@
 
 public class AIControllerTester : MonoBehaviour {
 
-    AIShipController aiShipController;
-    AIShipController.AIShipControllerInstance instance;
+    AIController aiController;
+    AIController.AIControllerInstance instance;
     Ship ship;
 
-    public float anticipation = 0.01f;
+    [SerializeField] private float desiredDistance = 30f;
+    [SerializeField] private float desiredAccuracy = 0.5f;
 
     private Transform target;
 
@@ -14,23 +15,23 @@ public class AIControllerTester : MonoBehaviour {
         target = GameManager.instance.GetComponent<TestManager>().target;
 
         ship = GetComponent<Ship>();
-        this.aiShipController = ship.controller.model as AIShipController;
-        instance = GetComponent<Ship>().controller.instance as AIShipController.AIShipControllerInstance;
+        this.aiController = ship.controller.model as AIController;
+        instance = GetComponent<Ship>().controller.instance as AIController.AIControllerInstance;
         instance.target = target;
     }
 
     private void Update () {
-        instance.anticipationFactor = anticipation;
+        instance.desiredDistance = desiredDistance;
+        aiController.accuracy = desiredAccuracy;
     }
 
-    private void OnDrawGizmos () {
-        Gizmos.color = Color.green;
-        Gizmos.DrawLine(target.position, target.position + instance.targetVelocity);
+    void OnDrawGizmos () {
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(target.position, target.position + instance.targetAcceleration);
-        Gizmos.color = Color.white;
-        Gizmos.DrawWireSphere(instance.targetPoint, 1f);
+        Gizmos.DrawSphere(instance.targetPosition, 1f);
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(instance.targetAim, 1f);
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(ship.transform.position, ship.transform.position + 10f * ship.transform.TransformVector (ship.engine.inputThrust));
+        Gizmos.DrawLine(ship.transform.position, ship.transform.position + ship.transform.forward * 100f);
     }
+
 }

@@ -13,4 +13,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Dummy
   shoot: 0
-  move: 0
+  move: 1

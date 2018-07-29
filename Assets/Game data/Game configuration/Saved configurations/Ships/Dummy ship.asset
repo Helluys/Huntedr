@@ -9,9 +9,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 14eced38f793ce6479c80c191ccfe0c4, type: 3}
-  m_Name: AI test ship
+  m_Name: Dummy ship
   m_EditorClassIdentifier: 
-  name: Player
+  name: Dummy
   shipModel: {fileID: 11400000, guid: f59b4fd3c72e920429c1b9c5bec51925, type: 2}
-  shipControllerModel: {fileID: 11400000, guid: b3fd75f32f94ab3418d4206a091cab7b,
+  shipControllerModel: {fileID: 11400000, guid: d28b88647e80e594e937dd1a33ddfefe,
     type: 2}

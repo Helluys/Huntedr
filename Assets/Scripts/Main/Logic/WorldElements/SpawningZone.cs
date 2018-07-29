@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 
-using Utilities;
-
 [RequireComponent(typeof(Collider))]
 public class SpawningZone : MonoBehaviour {
 
@@ -18,6 +16,6 @@ public class SpawningZone : MonoBehaviour {
     }
 
     private Vector3 GetSpawnPoint () {
-        return transform.TransformPoint(MathUtils.GetRandomColliderPoint(collider));
+        return transform.TransformPoint(Extension.Mathf.GetRandomColliderPoint(collider));
     }
 }

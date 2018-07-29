@@ -1,21 +1,21 @@
 ﻿using UnityEngine;
 
-namespace Utilities {
+namespace Extension {
 
-    public struct MathUtils {
+    public static class Mathf {
 
         public static Vector3 ClampVector3 (Vector3 input, float min, float max) {
             return new Vector3(
-                Mathf.Clamp(input.x, min, max),
-                Mathf.Clamp(input.y, min, max),
-                Mathf.Clamp(input.z, min, max));
+                UnityEngine.Mathf.Clamp(input.x, min, max),
+                UnityEngine.Mathf.Clamp(input.y, min, max),
+                UnityEngine.Mathf.Clamp(input.z, min, max));
         }
 
         public static Vector3 ClampVector3 (Vector3 input, Vector3 min, Vector3 max) {
             return new Vector3(
-                Mathf.Clamp(input.x, min.x, max.x),
-                Mathf.Clamp(input.y, min.y, max.y),
-                Mathf.Clamp(input.z, min.z, max.z));
+                UnityEngine.Mathf.Clamp(input.x, min.x, max.x),
+                UnityEngine.Mathf.Clamp(input.y, min.y, max.y),
+                UnityEngine.Mathf.Clamp(input.z, min.z, max.z));
         }
 
         public static Matrix4x4 ScaleMatrix (Matrix4x4 m, float f) {
@@ -64,7 +64,7 @@ namespace Utilities {
 
             if (capsuleCollider.radius > 0f) {
                 // avoid a negative value of height
-                float cylinderHeight = Mathf.Max(0f, capsuleCollider.height - 2f * capsuleCollider.radius);
+                float cylinderHeight = UnityEngine.Mathf.Max(0f, capsuleCollider.height - 2f * capsuleCollider.radius);
                 float cylinderOverSphereVolumeRatio = (3f / 4f) * cylinderHeight / capsuleCollider.radius;
 
                 // if random value is greater than the volume ratio, randomize spawn point in cylinder
@@ -126,6 +126,16 @@ namespace Utilities {
 
             average = average / inputArray.Length;
             return average;
+        }
+
+        public static float Sign(float f, float delta) {
+            float r = UnityEngine.Mathf.Sign(f);
+
+            delta = UnityEngine.Mathf.Abs(delta);
+            if (UnityEngine.Mathf.Abs(r) < delta)
+                r *= (UnityEngine.Mathf.Abs(r) / delta);
+
+            return r;
         }
     }
 

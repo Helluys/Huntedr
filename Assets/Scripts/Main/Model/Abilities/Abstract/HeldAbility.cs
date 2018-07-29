@@ -10,17 +10,14 @@ public abstract class HeldAbility : Ability {
         public override bool isAvailable { get { return base.isAvailable && coroutine == null; } }
 
         private Coroutine coroutine;
-        private bool holdAbility = false;
 
         public HeldAbilityInstance (Ship caster) : base(caster) {
             // Nothing to do
         }
 
         public sealed override void Use () {
-            if (isAvailable) {
-                holdAbility = true;
+            if (isAvailable)
                 coroutine = caster.StartCoroutine(AbililtyCoroutine());
-            }
         }
 
         public sealed override void Release () {

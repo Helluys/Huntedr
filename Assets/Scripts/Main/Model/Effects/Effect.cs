@@ -45,7 +45,7 @@ public abstract class Effect : ScriptableObject {
                 active = true;
                 break;
             case EndCondition.Unlimited:
-                repeatCoroutine = ship.StartCoroutine(PerformEffect(Mathf.Infinity));
+                this.repeatCoroutine = ship.StartCoroutine(PerformEffect(Mathf.Infinity));
                 active = true;
                 break;
             default:
