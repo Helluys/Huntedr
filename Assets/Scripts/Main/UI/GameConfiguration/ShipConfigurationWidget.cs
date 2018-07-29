@@ -38,7 +38,7 @@ public class ShipConfigurationWidget : MonoBehaviour {
         controllerDropdown.ClearOptions();
         List<string> controllerNames = globalGameData.shipControllers.ConvertAll(controller => controller.name);
         controllerDropdown.AddOptions(controllerNames);
-        controllerDropdown.value = controllerNames.FindIndex(controllerName => controllerName.Equals(shipConfiguration.shipController.name));
+        controllerDropdown.value = controllerNames.FindIndex(controllerName => controllerName.Equals(shipConfiguration.shipControllerModel.name));
     }
 
     #region UI callbacks
@@ -52,7 +52,7 @@ public class ShipConfigurationWidget : MonoBehaviour {
     }
 
     public void SetShipController(int index) {
-        shipConfiguration.shipController = globalGameData.shipControllers[index];
+        shipConfiguration.shipControllerModel = globalGameData.shipControllers[index];
     }
     
     #endregion

@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour {
     public IReadOnlyList<Ship> shipList { get { return _shipList.AsReadOnly(); } }
 
     [SerializeField] private GameObject shipPrefab;
-    [SerializeField] private ShipController playerController;
+    [SerializeField] private ShipControllerModel playerController;
 
     [SerializeField] private List<SpawningZone> spawningZones = new List<SpawningZone>();
     [SerializeField] private float killDistance;
@@ -63,13 +63,13 @@ public class GameManager : MonoBehaviour {
 
                 ship.name = shipConfiguration.name;
                 ship.model = shipConfiguration.shipModel;
-                ship.controller = shipConfiguration.shipController;
 
                 _shipList.Add(ship);
-                if (shipConfiguration.shipController.Equals(playerController))
+                if (shipConfiguration.shipControllerModel.Equals(playerController))
                     _playerList.Add(ship);
 
                 ship.ResetModels();
+                ship.SetControllerModel(shipConfiguration.shipControllerModel);
                 ship.Respawn();
             }
         }

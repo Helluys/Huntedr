@@ -8,9 +8,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69761769c6404bb45bf32b5035a4cc0c, type: 3}
-  m_Name: DummyShipController
+  m_Script: {fileID: 11500000, guid: 5335b72bfd87f8c459641b96cd92d9c4, type: 3}
+  m_Name: AIShipController
   m_EditorClassIdentifier: 
-  name: Dummy
-  shoot: 0
-  move: 0
+  name: AI
+  a: 1
+  b: 0.1
+  ra: 1
+  rb: 0.1

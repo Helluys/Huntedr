@@ -10,7 +10,7 @@ public class GlobalGameData : ScriptableObject {
 
     public List<MapData> maps = new List<MapData>();
     public List<ShipModel> shipModels = new List<ShipModel>();
-    public List<ShipController> shipControllers = new List<ShipController>();
+    public List<ShipControllerModel> shipControllers = new List<ShipControllerModel>();
     public List<Faction> factions = new List<Faction>();
 
     [SerializeField] private TeamConfiguration emptyTeamConfiguration;
@@ -54,7 +54,7 @@ public class GlobalGameData : ScriptableObject {
         ShipConfiguration shipConfiguration = Instantiate(emptyShipConfiguration);
         shipConfiguration.name = "Ship " + (index+1);
         shipConfiguration.shipModel = shipModels[0];
-        shipConfiguration.shipController = shipControllers[0];
+        shipConfiguration.shipControllerModel = shipControllers[0];
 
         return shipConfiguration;
     }

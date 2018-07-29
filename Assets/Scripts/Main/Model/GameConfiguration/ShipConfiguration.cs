@@ -5,6 +5,6 @@ public class ShipConfiguration : ScriptableObject {
 
     new public string name;
     public ShipModel shipModel;
-    public ShipController shipController;
+    public ShipControllerModel shipControllerModel;
 
 }

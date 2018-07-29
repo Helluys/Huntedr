@@ -13,16 +13,15 @@ public class Ship : MonoBehaviour, IDestructible {
     public ShipDynamics dynamics;
     public ShipController controller;
     public ShipAbilities abilities;
-
+    
     public Faction faction;
 
     [SerializeField] private List<Transform> weaponTransforms;
+
     public List<GameObject> weaponSystems { get; private set; }
 
     public bool isDestroyed { get; private set; } = false;
-
-    private ShipController.IInstance controllerInstance;
-
+    
     public event EventHandler<IDestructible> OnDamage;
     public event EventHandler<IDestructible> OnDestruction;
 
@@ -34,12 +33,10 @@ public class Ship : MonoBehaviour, IDestructible {
         status.OnDeath += OnDeath;
 
         abilities.OnStart(this);
-
-        controllerInstance.OnStart();
     }
 
     private void Update () {
-        controllerInstance.OnUpdate();
+        controller.OnUpdate();
         engine.OnUpdate();
     }
 
@@ -60,8 +57,11 @@ public class Ship : MonoBehaviour, IDestructible {
         status = new ShipStatus(this);
         engine = new ShipEngine(this);
         dynamics = new ShipDynamics(this);
-        controllerInstance = controller.CreateInstance(this);
         SetupWeapons();
+    }
+
+    public void SetControllerModel (ShipControllerModel controllerModel) {
+        controller = new ShipController(this, controllerModel);
     }
 
     private void SetupWeapons () {

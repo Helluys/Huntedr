@@ -9,16 +9,20 @@ public class StatusPanelView : MonoBehaviour {
     [SerializeField] Text ammunitionField;
 
     void Start () {
-        ship = GameManager.instance.playerList[0];
-        ship.status.OnHealthChanged += UpdateHealth;
-        ship.status.OnEnergyChanged += UpdateEnergy;
-        ship.status.OnAmmunitionChanged += UpdateAmmunition;
+        if (GameManager.instance.playerList.Count == 0)
+            gameObject.SetActive(false);
+        else {
+            ship = GameManager.instance.playerList[0];
+            ship.status.OnHealthChanged += UpdateHealth;
+            ship.status.OnEnergyChanged += UpdateEnergy;
+            ship.status.OnAmmunitionChanged += UpdateAmmunition;
+        }
     }
 
     private void UpdateHealth (object sender, float healthDelta) {
         healthField.text = ship.status.GetHealth().ToString("N2");
     }
-    private void UpdateEnergy(object sender, float energyDelta) {
+    private void UpdateEnergy (object sender, float energyDelta) {
         energyField.text = ship.status.GetEnergy().ToString("N2");
     }
     private void UpdateAmmunition (object sender, float ammunitionDelta) {

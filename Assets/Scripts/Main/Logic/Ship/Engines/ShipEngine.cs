@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using Utilities;
 
 [System.Serializable]
 public class ShipEngine {
@@ -11,13 +10,13 @@ public class ShipEngine {
     private Vector3 _inputThrust;
     public Vector3 inputThrust {
         get { return _inputThrust; }
-        set { _inputThrust = MathUtils.ClampVector3(value, -1f, 1f); }
+        set { _inputThrust = Vector3.ClampMagnitude(value, 1f); }
     }
 
     private Vector3 _inputTorque;
     public Vector3 inputTorque {
         get { return _inputTorque; }
-        set { _inputTorque = MathUtils.ClampVector3(value, -1f, 1f); }
+        set { _inputTorque = Vector3.ClampMagnitude(value, 1f); }
     }
 
     private float _inputCushion;

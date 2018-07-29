@@ -4,21 +4,21 @@ namespace Utilities {
 
     public struct MathUtils {
 
-        public static Vector3 ClampVector3(Vector3 input, float min, float max) {
+        public static Vector3 ClampVector3 (Vector3 input, float min, float max) {
             return new Vector3(
                 Mathf.Clamp(input.x, min, max),
                 Mathf.Clamp(input.y, min, max),
                 Mathf.Clamp(input.z, min, max));
         }
 
-        public static Vector3 ClampVector3(Vector3 input, Vector3 min, Vector3 max) {
+        public static Vector3 ClampVector3 (Vector3 input, Vector3 min, Vector3 max) {
             return new Vector3(
                 Mathf.Clamp(input.x, min.x, max.x),
                 Mathf.Clamp(input.y, min.y, max.y),
                 Mathf.Clamp(input.z, min.z, max.z));
         }
 
-        public static Matrix4x4 ScaleMatrix(Matrix4x4 m, float f) {
+        public static Matrix4x4 ScaleMatrix (Matrix4x4 m, float f) {
             return new Matrix4x4(
                 f * m.GetColumn(0),
                 f * m.GetColumn(1),
@@ -26,7 +26,7 @@ namespace Utilities {
                 f * m.GetColumn(3));
         }
 
-        public static Vector3 GetRandomColliderPoint(Collider collider) {
+        public static Vector3 GetRandomColliderPoint (Collider collider) {
             Vector3 point;
 
             if (collider is BoxCollider)
@@ -108,6 +108,24 @@ namespace Utilities {
                 new Vector3((Random.value - 0.5f) * boxCollider.size.x,
                             (Random.value - 0.5f) * boxCollider.size.y,
                             (Random.value - 0.5f) * boxCollider.size.z);
+        }
+
+        public static Vector3[] ArrayDelta (Vector3[] inputArray, float factor = 1f) {
+            Vector3[] deltaArray = new Vector3[inputArray.Length - 1];
+
+            for (int i = 0; i < inputArray.Length - 1; i++)
+                deltaArray[i] = (inputArray[i] - inputArray[i + 1]) * factor;
+
+            return deltaArray;
+        }
+
+        public static Vector3 ArrayAverage (Vector3[] inputArray) {
+            Vector3 average = Vector3.zero;
+            foreach (Vector3 v in inputArray)
+                average += v;
+
+            average = average / inputArray.Length;
+            return average;
         }
     }
 

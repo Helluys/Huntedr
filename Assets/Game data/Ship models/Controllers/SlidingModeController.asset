@@ -8,9 +8,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69761769c6404bb45bf32b5035a4cc0c, type: 3}
-  m_Name: DummyShipController
+  m_Script: {fileID: 11500000, guid: aa884e29bd76d834da43cb2a03dc26b3, type: 3}
+  m_Name: SlidingModeController
   m_EditorClassIdentifier: 
-  name: Dummy
-  shoot: 0
-  move: 0
+  name: Sliding mode controller
+  thrustFactors: {x: 1, y: 1, z: 1}
+  torqueFactors: {x: 1, y: 1, z: 1}

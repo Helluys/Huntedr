@@ -1,42 +1,47 @@
 ﻿using System.Collections;
+
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Game data/Ships/Ship Controllers/Dummy Ship Controller", fileName = "DummyShipController")]
-public class DummyShipController : ShipController {
+public class DummyShipController : ShipControllerModel {
 
     [SerializeField] private bool shoot = false;
     [SerializeField] private bool move = false;
 
-    public override IInstance CreateInstance (Ship holder) {
-        return new Instance(holder, this);
+    public override Instance CreateInstance (Ship holder) {
+        return new DummyShipControllerInstance(holder, this);
     }
 
-    private class Instance : IInstance {
+    [System.Serializable]
+    private class DummyShipControllerInstance : Instance {
 
         private Ship ship;
         private DummyShipController model;
         private WaitForSeconds waitOneSecond = new WaitForSeconds(1f);
 
-        public Instance (Ship ship, DummyShipController model) {
+        public DummyShipControllerInstance (Ship ship, DummyShipController model) {
             this.ship = ship;
             this.model = model;
         }
 
-        public void OnStart () {
+        public override void OnStart () {
             ship.StartCoroutine(UpdateInput());
         }
 
-        public void OnUpdate () {
+        public override void OnUpdate () {
             if (model.shoot)
                 ship.weaponSystems[0].GetComponent<WeaponSystem>()?.Shoot();
         }
 
         private IEnumerator UpdateInput () {
-            if (model.move) {
-                ship.engine.inputThrust = new Vector3().RandomRange(-1f, 1f);
-                ship.engine.inputTorque = new Vector3().RandomRange(-1f, 1f);
+            for (; ; ) {
+                if (model.move) {
+                    ship.engine.inputThrust = new Vector3().RandomRange(-1f, 1f);
+                    ship.engine.inputTorque = new Vector3().RandomRange(-1f, 1f);
+                }
+
+                yield return waitOneSecond;
             }
-            yield return waitOneSecond;
         }
     }
 }

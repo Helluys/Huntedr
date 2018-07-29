@@ -4,7 +4,8 @@
 public class CameraManager : ObjectTracker {
 
     private void Start () {
-        SetTrackedTransform(GameManager.instance.playerList[0].transform);
+        if (GameManager.instance.playerList.Count != 0)
+            SetTrackedTransform(GameManager.instance.playerList[0].transform);
     }
 
 }

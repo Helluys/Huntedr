@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1ed8b21efed55994097572e4e6bf507b, type: 3}
-  m_Name: Player solo team 1
+  m_Name: Solo player team
   m_EditorClassIdentifier: 
   name: Crimson Strikers
   faction: {fileID: 11400000, guid: 385e4ab66fd092c4cbe00ed831eb6e8d, type: 2}
