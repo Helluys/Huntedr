@@ -3,9 +3,33 @@
 [System.Serializable]
 public class ShipEngine {
 
+    public struct Input {
+        public static Input zero = new Input {
+            thrust = Vector3.zero,
+            torque = Vector3.zero
+        };
+
+        public Vector3 thrust;
+        public Vector3 torque;
+    }
+
     public ShipStatus shipStatus { get; private set; }
 
     [SerializeField] private ShipEngineModel shipEngineInstance;
+
+    public Input input {
+        get {
+            return new Input {
+                thrust = inputThrust,
+                torque = inputTorque
+            };
+        }
+
+        set {
+            inputThrust = value.thrust;
+            inputTorque = value.torque;
+        }
+    }
 
     private Vector3 _inputThrust;
     public Vector3 inputThrust {

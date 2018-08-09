@@ -7,17 +7,26 @@ public class AIControllerTester : MonoBehaviour {
     Ship ship;
 
     [SerializeField] private float desiredDistance = 30f;
-    [SerializeField] private float desiredAccuracy = 0.5f;
+    [SerializeField] [Range(0f, 1f)] private float desiredAccuracy = 1f;
+
+    public AIController.AIControllerInstance.Objective objective;
 
     private Transform target;
 
-	void Start () {
-        target = GameManager.instance.GetComponent<TestManager>().target;
+    void Start () {
+        switch (objective) {
+            case AIController.AIControllerInstance.Objective.TargetShip:
+                target = GameManager.instance.GetComponent<TestManager>().targetShip;
+                break;
+            case AIController.AIControllerInstance.Objective.MoveToPoint:
+                target = GameObject.Find("Target").transform;
+                break;
+        }
 
         ship = GetComponent<Ship>();
         this.aiController = ship.controller.model as AIController;
         instance = GetComponent<Ship>().controller.instance as AIController.AIControllerInstance;
-        instance.target = target;
+        instance.SetObjective(objective, target);
     }
 
     private void Update () {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using UnityEngine;
 
@@ -20,6 +21,8 @@ public class GameManager : MonoBehaviour {
 
     [SerializeField] private List<SpawningZone> spawningZones = new List<SpawningZone>();
     [SerializeField] private float killDistance;
+
+    [SerializeField] private GameObject pathNodeHolder;
 
     private List<Ship> _playerList = new List<Ship>();
     private List<Ship> _shipList = new List<Ship>();
@@ -53,6 +56,10 @@ public class GameManager : MonoBehaviour {
 
     public static SpawningZone GetSpawningZone (Faction faction) {
         return instance.spawningZones[faction.index];
+    }
+
+    public static GameObject GetPathNodesHolder () {
+        return instance.pathNodeHolder;
     }
 
     private void CreateShips () {

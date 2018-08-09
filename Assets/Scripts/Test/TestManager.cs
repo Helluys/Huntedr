@@ -1,16 +1,17 @@
 ﻿using UnityEngine;
 
 public class TestManager : MonoBehaviour {
-    public Transform target;
+    public Transform targetShip;
 
     [SerializeField] private Ship testShip;
+    [SerializeField] private AIController.AIControllerInstance.Objective objective;
 
     void Start () {
         testShip = GameManager.instance.shipList[0];
 
         if (GameManager.instance.shipList.Count > 1)
-            target = GameManager.instance.shipList[1].transform;
+            targetShip = GameManager.instance.shipList[1].transform;
 
-        testShip.gameObject.AddComponent<AIControllerTester>();
+        testShip.gameObject.AddComponent<AIControllerTester>().objective = this.objective;
     }
 }
