@@ -7,6 +7,7 @@ public class DummyShipController : ShipControllerModel {
 
     [SerializeField] private bool shoot = false;
     [SerializeField] private bool move = false;
+    [SerializeField] private float updateDelay = 1f;
     
     public override Instance CreateInstance (Ship holder) {
         return new DummyShipControllerInstance(holder, this);
@@ -17,11 +18,12 @@ public class DummyShipController : ShipControllerModel {
 
         private Ship ship;
         private DummyShipController model;
-        private WaitForSeconds waitOneSecond = new WaitForSeconds(1f);
+        private WaitForSeconds waiter = new WaitForSeconds(1f);
 
         public DummyShipControllerInstance (Ship ship, DummyShipController model) {
             this.ship = ship;
             this.model = model;
+            this.waiter = new WaitForSeconds(model.updateDelay);
         }
 
         public override void OnStart () {
@@ -40,7 +42,7 @@ public class DummyShipController : ShipControllerModel {
                     ship.engine.inputTorque = new Vector3().RandomRange(-1f, 1f);
                 }
 
-                yield return waitOneSecond;
+                yield return waiter;
             }
         }
     }

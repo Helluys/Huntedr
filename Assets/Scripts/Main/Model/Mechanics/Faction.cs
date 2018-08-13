@@ -21,4 +21,8 @@ public class Faction : ScriptableObject {
         return GameManager.instance.gameConfiguration.teams[index].faction;
     }
 
+    public static bool AreFriendly (Faction faction1, Faction faction2) {
+        return faction1 == faction2;
+    }
+
 }

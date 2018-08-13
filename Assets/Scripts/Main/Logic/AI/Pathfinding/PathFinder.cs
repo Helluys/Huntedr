@@ -4,32 +4,32 @@ using UnityEngine;
 
 public class PathFinder {
 
-    private List<PathNode> network;
+    private List<IPathNode> network;
 
     private struct NodeData {
         public float evaluation;
-        public PathNode parent;
+        public IPathNode parent;
 
-        public NodeData (float evaluation, PathNode parent) {
+        public NodeData (float evaluation, IPathNode parent) {
             this.evaluation = evaluation;
             this.parent = parent;
         }
     }
     
     public PathFinder (GameObject networkHolder) {
-        this.network = new List<PathNode>();
+        this.network = new List<IPathNode>();
         networkHolder.GetComponentsInChildren(network);
     }
 
-    public List<Vector3> ComputePath (Vector3 startPoint, Vector3 endPoint) {
+    public List<IPathNode> ComputePath (Vector3 startPoint, Vector3 endPoint) {
         // openList contains all nodes that need to be evaluated
-        Dictionary<PathNode, NodeData> openList = new Dictionary<PathNode, NodeData>();
+        Dictionary<IPathNode, NodeData> openList = new Dictionary<IPathNode, NodeData>();
         // closedList contains all nodes that have already been evaluated
-        Dictionary<PathNode, NodeData> closedList = new Dictionary<PathNode, NodeData>();
+        Dictionary<IPathNode, NodeData> closedList = new Dictionary<IPathNode, NodeData>();
 
-        // Find limit nodes from  world points
-        PathNode startNode = FindClosestNode(startPoint);
-        PathNode endNode = FindClosestNode(endPoint);
+        // Create free nodes at start and end points
+        FreePathNode startNode = new FreePathNode(startPoint, this.network);
+        FreePathNode endNode = new FreePathNode(endPoint, this.network);
 
         // Start algorithm at startNode
         openList.Add(startNode, new NodeData(Heuristic(startNode, endNode), null));
@@ -38,7 +38,7 @@ public class PathFinder {
         bool goalReached = false;
         while (openList.Count > 0 && !goalReached) {
             // Get the node in the openList with the lowest evaluation
-            PathNode currentNode = PickCurrentNode(openList);
+            IPathNode currentNode = PickCurrentNode(openList);
             float previousHeuristic = Heuristic(currentNode, endNode);
 
             // Add it to closedList and remove it from openList
@@ -50,41 +50,32 @@ public class PathFinder {
                 goalReached = true;
             } else {
                 // Develop all neighbouring nodes
-                foreach (PathNode neighbour in currentNode.adjacentNodes) {
+                foreach (IPathNode neighbour in currentNode.adjacentNodes) {
                     float evaluation = closedList[currentNode].evaluation - previousHeuristic + currentNode.GetCost(neighbour) + Heuristic(neighbour, endNode);
                     DevelopNode(neighbour, new NodeData(evaluation, currentNode), openList, closedList);
                 }
             }
         }
 
+        // Disconnect from network
+        startNode.ReleaseNode(network);
+        endNode.ReleaseNode(network);
+
+        // Goal is not reachable
         if (!goalReached)
             throw new UnreachableNodeException();
+        
+        // Comput final path
+        List<IPathNode> finalPath = GetFinalPath(closedList, endNode);
 
-        List<Vector3> finalPath = GetFinalPath(closedList, endNode);
-        finalPath.Add(endPoint);
         return finalPath;
     }
 
-    private PathNode FindClosestNode (Vector3 point) {
-        float minDistance = Mathf.Infinity;
-        PathNode closestNode = null;
-
-        foreach (PathNode node in network) {
-            float distance = (node.transform.position - point).magnitude;
-            if (distance < minDistance) {
-                minDistance = distance;
-                closestNode = node;
-            }
-        }
-
-        return closestNode;
-    }
-
     // Returns the node in the openList with the lowest evaluation
-    private PathNode PickCurrentNode (Dictionary<PathNode, NodeData> openList) {
-        PathNode bestNode = null;
+    private IPathNode PickCurrentNode (Dictionary<IPathNode, NodeData> openList) {
+        IPathNode bestNode = null;
         float bestValue = Mathf.Infinity;
-        foreach (KeyValuePair<PathNode, NodeData> kvp in openList) {
+        foreach (KeyValuePair<IPathNode, NodeData> kvp in openList) {
             if (kvp.Value.evaluation < bestValue) {
                 bestNode = kvp.Key;
                 bestValue = kvp.Value.evaluation;
@@ -93,7 +84,7 @@ public class PathFinder {
         return bestNode;
     }
 
-    private void DevelopNode (PathNode node, NodeData nodeData, Dictionary<PathNode, NodeData> openList, Dictionary<PathNode, NodeData> closedList) {
+    private void DevelopNode (IPathNode node, NodeData nodeData, Dictionary<IPathNode, NodeData> openList, Dictionary<IPathNode, NodeData> closedList) {
         if (openList.ContainsKey(node)) {
             if (nodeData.evaluation < openList[node].evaluation) {
                 openList[node] = nodeData;
@@ -108,15 +99,16 @@ public class PathFinder {
         }
     }
 
-    private float Heuristic (PathNode start, PathNode end) {
-        return (end.transform.position - start.transform.position).magnitude;
+    private float Heuristic (IPathNode start, IPathNode end) {
+        return (end.position - start.position).magnitude;
     }
-    private List<Vector3> GetFinalPath (Dictionary<PathNode, NodeData> closedList, PathNode endNode) {
-        List<Vector3> path = new List<Vector3>();
-        PathNode currentNode = endNode;
+
+    private List<IPathNode> GetFinalPath (Dictionary<IPathNode, NodeData> closedList, IPathNode endNode) {
+        List<IPathNode> path = new List<IPathNode>();
+        IPathNode currentNode = endNode;
 
         do {
-            path.Add(currentNode.transform.position);
+            path.Add(currentNode);
             currentNode = closedList[currentNode].parent;
         } while (currentNode != null);
 
@@ -124,7 +116,5 @@ public class PathFinder {
         
         return path;
     }
-
-
 
 }

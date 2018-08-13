@@ -14,7 +14,7 @@ MonoBehaviour:
   name: AI
   thrustFactors: {x: 1, y: 1, z: 1}
   torqueFactors: {x: 1, y: 1, z: 1}
-  thrustDeltas: {x: 0.1, y: 0.1, z: 0.1}
-  torqueDeltas: {x: 0, y: 0, z: 0}
+  thrustDeltas: {x: 1, y: 1, z: 1}
+  torqueDeltas: {x: 1, y: 1, z: 1}
   anticipationFactor: 0
   accuracy: 1

@@ -70,22 +70,16 @@ public class SingleTargetPicker : TargetPicker<Ship> {
     protected override void OnCancelPicking () {
         pickingCancelled = true;
     }
-
-    private float DistanceTo (Ship ship) {
-        return (ship.transform.position - caster.transform.position).magnitude;
-    }
-
+    
     private int GetClosestShipIndex () {
         int index = -1;
-        Ship target = null;
         float minDistance = Mathf.Infinity;
 
         for (int i = 0; i < shipList.Count; i++) {
             Ship ship = shipList[i];
-            float distance = DistanceTo(ship);
+            float distance = (ship.transform.position - caster.transform.position).magnitude;
 
             if (!ship.Equals(caster) && distance < minDistance) {
-                target = ship;
                 index = i;
                 minDistance = distance;
             }

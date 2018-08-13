@@ -1,41 +1,47 @@
 ﻿using UnityEngine;
 
 public class ShipTargeter : AISubController {
-
+    
     private Ship target {
-        get { return this.shipSimulator.target; }
-        set { this.shipSimulator.target = value; }
+        get { return this.targetSimulator.target; }
+        set { this.targetSimulator.target = value; }
     }
 
-    private ShipSimulator shipSimulator;
-
-    private Transform currentTransform;
+    private ShipSimulator targetSimulator;
+    private Ship ship;
 
     public float desiredDistance;
     public float anticipationFactor;
 
-    public ShipTargeter (Transform currentTransform, Ship target, float desiredDistance, float anticipationFactor) {
-        this.shipSimulator = new ShipSimulator(target);
+    private float firingThreshold = 1f;
 
-        this.currentTransform = currentTransform;
+    public ShipTargeter (Ship ship, Ship target, float desiredDistance, float anticipationFactor) {
+        this.targetSimulator = new ShipSimulator(target);
+
+        this.ship = ship;
 
         this.desiredDistance = desiredDistance;
         this.anticipationFactor = anticipationFactor;
     }
 
     public override SlidingModeControl.Target ComputeTarget () {
-        this.target.OnDestruction += Target_OnDestruction;
+        this.target.OnDestruction += TargetDestruction;
 
-        this.shipSimulator.anticipationTime = this.anticipationFactor * (this.target.transform.position - this.currentTransform.position).magnitude;
-        this.shipSimulator.UpdateSimulator();
+        this.targetSimulator.anticipationTime = this.anticipationFactor * (this.target.transform.position - this.ship.transform.position).magnitude;
+        this.targetSimulator.UpdateSimulator();
+
+        float targetingDistance = Vector3.ProjectOnPlane(this.targetSimulator.simulatedPosition - this.ship.transform.position, this.ship.transform.forward).magnitude;
+        if (targetingDistance < this.firingThreshold)
+            foreach (GameObject weaponSystem in this.ship.weaponSystems)
+                weaponSystem.GetComponent<WeaponSystem>().Shoot();
 
         return new SlidingModeControl.Target {
-            point = this.shipSimulator.simulatedPosition - (this.shipSimulator.simulatedPosition - this.currentTransform.position).normalized * desiredDistance,
-            aim = this.shipSimulator.simulatedPosition
+            point = this.targetSimulator.simulatedPosition - (this.targetSimulator.simulatedPosition - this.ship.transform.position).normalized * desiredDistance,
+            aim = this.targetSimulator.simulatedPosition
         };
     }
 
-    private void Target_OnDestruction (object sender, IDestructible e) {
+    private void TargetDestruction (object sender, IDestructible e) {
         ObjectiveCompleted();
     }
 }

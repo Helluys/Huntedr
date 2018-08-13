@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using UnityEngine;
 
@@ -48,10 +47,6 @@ public class GameManager : MonoBehaviour {
         foreach (Ship ship in _shipList)
             if (ship.transform.position.magnitude > killDistance)
                 ship.Destroy();
-    }
-
-    public static bool AreFriendlyFactions (Faction faction1, Faction faction2) {
-        return faction1 == faction2;
     }
 
     public static SpawningZone GetSpawningZone (Faction faction) {

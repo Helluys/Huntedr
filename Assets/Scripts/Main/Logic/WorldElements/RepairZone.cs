@@ -15,7 +15,7 @@ public class RepairZone : MonoBehaviour {
     private void OnTriggerEnter (Collider other) {
         Ship ship = other.attachedRigidbody.GetComponent<Ship>();
         
-        if (ship != null && GameManager.AreFriendlyFactions(Faction.FromIndex(factionIndex), ship.faction) && !repairCoroutines.ContainsKey(ship))
+        if (ship != null && Faction.AreFriendly(Faction.FromIndex(factionIndex), ship.faction) && !repairCoroutines.ContainsKey(ship))
             repairCoroutines.Add(ship, StartCoroutine(Repair(ship)));
     }
 

@@ -6,7 +6,7 @@ public class AIControllerTester : MonoBehaviour {
     AIController.AIControllerInstance instance;
     Ship ship;
 
-    [SerializeField] private float desiredDistance = 30f;
+    [SerializeField] private float desiredDistance = 100f;
     [SerializeField] [Range(0f, 1f)] private float desiredAccuracy = 1f;
 
     public AIController.AIControllerInstance.Objective objective;
