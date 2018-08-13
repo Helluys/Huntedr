@@ -2,7 +2,7 @@
 
 public class ShipSimulator {
 
-    public Transform target;
+    public Ship target;
     public float anticipationTime;
 
     public Vector3 simulatedPosition { get; private set; }
@@ -15,7 +15,7 @@ public class ShipSimulator {
     private Vector3[] lastTargetPositions = new Vector3[3];
     private Vector3[] lastTargetDirections = new Vector3[3];
 
-    public ShipSimulator (Transform target, float anticipationTime = 1f) {
+    public ShipSimulator (Ship target, float anticipationTime = 1f) {
         this.target = target;
         this.anticipationTime = anticipationTime;
 
@@ -39,8 +39,8 @@ public class ShipSimulator {
         Vector3[] angularVelocityArray = Extension.Mathf.ArrayDelta(lastTargetDirections, 1f / Time.fixedDeltaTime);
         simulatedAngularVelocity = Extension.Mathf.ArrayAverage(angularVelocityArray);
 
-        simulatedPosition = target.position;
-        simulatedDirection = target.forward;
+        simulatedPosition = target.transform.position;
+        simulatedDirection = target.transform.forward;
 
         float simulationTime = 0f;
         while (simulationTime < anticipationTime) {
@@ -55,11 +55,11 @@ public class ShipSimulator {
     private void ShiftTargetArrays () {
         for (int i = lastTargetPositions.Length - 1; i > 0; i--)
             lastTargetPositions[i] = lastTargetPositions[i - 1];
-        lastTargetPositions[0] = target.position;
+        lastTargetPositions[0] = target.transform.position;
 
         for (int i = lastTargetDirections.Length - 1; i > 0; i--)
             lastTargetDirections[i] = lastTargetDirections[i];
-        lastTargetDirections[0] = target.forward;
+        lastTargetDirections[0] = target.transform.forward;
     }
 
 }

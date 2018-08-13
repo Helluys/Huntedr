@@ -68,7 +68,7 @@ public class AIController : ShipControllerModel {
             this.currentObjective = objective;
             switch (this.currentObjective) {
                 case Objective.TargetShip:
-                    this.currentSubController = new ShipTargeter(this.ship.transform, target, this.desiredDistance, this.model.anticipationFactor);
+                    this.currentSubController = new ShipTargeter(this.ship.transform, target.GetComponent<Ship>(), this.desiredDistance, this.model.anticipationFactor);
                     break;
                 case Objective.MoveToPoint:
                     this.currentSubController = new PathFollower(this.ship.transform, target.position);

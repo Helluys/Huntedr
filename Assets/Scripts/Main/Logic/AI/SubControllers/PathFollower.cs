@@ -34,6 +34,9 @@ public class PathFollower : AISubController {
 
         // Update current and next point
         if (currentSegmentDistance > currentSegmentLength - anticipationDistance) {
+            if (currentPathIndex == path.Count - 1)
+                ObjectiveCompleted();
+
             currentPathIndex++;
             UpdatePoints();
 
