@@ -16,5 +16,5 @@ MonoBehaviour:
   torqueFactors: {x: 1, y: 1, z: 1}
   thrustDeltas: {x: 1, y: 1, z: 1}
   torqueDeltas: {x: 1, y: 1, z: 1}
-  anticipationFactor: 0
+  anticipationFactor: 0.01
   accuracy: 1

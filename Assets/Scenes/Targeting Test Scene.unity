@@ -123,7 +123,7 @@ Prefab:
     - target: {fileID: 224011133421804368, guid: d5a75180767a5ad4c9220841d5dfb12e,
         type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224011133421804368, guid: d5a75180767a5ad4c9220841d5dfb12e,
         type: 2}
@@ -163,7 +163,7 @@ Prefab:
     - target: {fileID: 224011133421804368, guid: d5a75180767a5ad4c9220841d5dfb12e,
         type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224011133421804368, guid: d5a75180767a5ad4c9220841d5dfb12e,
         type: 2}
@@ -298,7 +298,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 90, y: 90, z: 0}
 --- !u!114 &862480652
 MonoBehaviour:
@@ -312,7 +312,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trackedTransform: {fileID: 0}
-  offset: {x: 0, y: 2, z: -12}
+  offset: {x: 0, y: 5, z: -20}
   rotationOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &1234367279
 GameObject:
@@ -540,12 +540,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   winConditions: {fileID: 11400000, guid: bee0bb6e7af46a8408b21080fa074c6a, type: 2}
   gameConfiguration: {fileID: 11400000, guid: d68ee435176e7214cbeb36ca3233e8ba, type: 2}
-  shipPrefab: {fileID: 1515649526068412, guid: 06c6b874b1d637846ad3b5ab7555a050, type: 2}
+  shipPrefab: {fileID: 1867537824244166, guid: a40049ff5961e6f41946ec69720d6af5, type: 2}
   playerController: {fileID: 11400000, guid: 288308e6e6086eb499e8b32986ba9459, type: 2}
   spawningZones:
   - {fileID: 1332291899}
   - {fileID: 1234367280}
   killDistance: 10000
+  pathNodeHolder: {fileID: 0}
 --- !u!4 &1366414992
 Transform:
   m_ObjectHideFlags: 0
@@ -572,8 +573,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 755c9577c0ae52947974ed9c26933b93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  targetShip: {fileID: 0}
   testShip: {fileID: 0}
+  objective: 0
 --- !u!1 &1475532933
 GameObject:
   m_ObjectHideFlags: 0
@@ -637,5 +639,5 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
