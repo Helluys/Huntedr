@@ -4,7 +4,7 @@ public class TestManager : MonoBehaviour {
     public Transform targetShip;
 
     [SerializeField] private Ship testShip;
-    [SerializeField] private AIController.AIControllerInstance.Objective objective;
+    [SerializeField] private LowLevelObjective objective;
 
     void Start () {
         testShip = GameManager.instance.shipList[0];

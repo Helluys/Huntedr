@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PathFinder {
 
-    private List<IPathNode> network;
+    private readonly List<IPathNode> network;
 
     private struct NodeData {
         public float evaluation;
@@ -15,7 +15,22 @@ public class PathFinder {
             this.parent = parent;
         }
     }
-    
+
+    public static IPathNode FindClosestNode (Vector3 point, List<IPathNode> network) {
+        float minDistance = Mathf.Infinity;
+        IPathNode closestNode = null;
+
+        foreach (IPathNode node in network) {
+            float distance = (node.position - point).magnitude;
+            if (distance < minDistance && Physics.Raycast(new Ray(point, node.position - point), Mathf.Infinity)) {
+                minDistance = distance;
+                closestNode = node;
+            }
+        }
+
+        return closestNode;
+    }
+
     public PathFinder (GameObject networkHolder) {
         this.network = new List<IPathNode>();
         networkHolder.GetComponentsInChildren(network);
@@ -57,7 +72,7 @@ public class PathFinder {
             }
         }
 
-        // Disconnect from network
+        // Disconnect FreePathNodes from network
         startNode.ReleaseNode(network);
         endNode.ReleaseNode(network);
 
@@ -65,7 +80,7 @@ public class PathFinder {
         if (!goalReached)
             throw new UnreachableNodeException();
         
-        // Comput final path
+        // Compute final path
         List<IPathNode> finalPath = GetFinalPath(closedList, endNode);
 
         return finalPath;

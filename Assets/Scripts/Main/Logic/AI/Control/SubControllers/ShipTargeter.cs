@@ -1,19 +1,19 @@
 ﻿using UnityEngine;
 
 public class ShipTargeter : AISubController {
-    
+
     private Ship target {
         get { return this.targetSimulator.target; }
         set { this.targetSimulator.target = value; }
     }
 
-    private ShipSimulator targetSimulator;
-    private Ship ship;
+    private readonly ShipSimulator targetSimulator;
+    private readonly Ship ship;
 
-    public float desiredDistance;
-    public float anticipationFactor;
+    private readonly float firingThreshold = 1f;
 
-    private float firingThreshold = 1f;
+    private readonly float desiredDistance;
+    private readonly float anticipationFactor;
 
     public ShipTargeter (Ship ship, Ship target, float desiredDistance, float anticipationFactor) {
         this.targetSimulator = new ShipSimulator(target);
@@ -36,7 +36,7 @@ public class ShipTargeter : AISubController {
                 weaponSystem.GetComponent<WeaponSystem>().Shoot();
 
         return new SlidingModeControl.Target {
-            point = this.targetSimulator.simulatedPosition - (this.targetSimulator.simulatedPosition - this.ship.transform.position).normalized * desiredDistance,
+            point = this.targetSimulator.simulatedPosition - (this.targetSimulator.simulatedPosition - this.ship.transform.position).normalized * this.desiredDistance,
             aim = this.targetSimulator.simulatedPosition
         };
     }

@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
 
 [CreateAssetMenu(menuName = "Game data/Ships/Ship Controllers/AI Ship Controller", fileName = "AIController")]
-public class AIController : ShipControllerModel {
+public class AIControllerModel : ShipControllerModel {
+
 
     [SerializeField] private Vector3 thrustFactors;
     [SerializeField] private Vector3 torqueFactors;
 
     [SerializeField] private Vector3 thrustDeltas;
     [SerializeField] private Vector3 torqueDeltas;
-    
+
     [SerializeField] private float anticipationFactor = 0.1f;
 
     [SerializeField] [Range(0f, 1f)] public float accuracy = 0.8f;
@@ -19,26 +20,22 @@ public class AIController : ShipControllerModel {
 
     public class AIControllerInstance : Instance {
 
-        public enum Objective {
-            TargetShip, MoveToPoint
-        }
-
         public float desiredDistance { get; set; } = 30f;
 
-        public Objective currentObjective;
+        private LowLevelObjective currentObjective;
 
         public Vector3 targetPosition { get { return this.controlComputer.target.point; } }
         public Vector3 targetAim { get { return this.controlComputer.target.aim; } }
 
-        private Ship ship;
-        private AIController model;
+        private readonly Ship ship;
+        private readonly AIControllerModel model;
 
         private float updateTime = 0f;
 
-        private SlidingModeControl controlComputer;
+        private readonly SlidingModeControl controlComputer;
         private AISubController currentSubController;
 
-        public AIControllerInstance (Ship ship, AIController model) {
+        public AIControllerInstance (Ship ship, AIControllerModel model) {
             this.ship = ship;
             this.model = model;
 
@@ -55,8 +52,8 @@ public class AIController : ShipControllerModel {
         }
 
         public override void OnUpdate () {
-            if (IsUpdateFrame() && currentSubController != null) {
-                this.controlComputer.target = currentSubController.ComputeTarget();
+            if (IsUpdateFrame() && this.currentSubController != null) {
+                this.controlComputer.target = this.currentSubController.ComputeTarget();
 
                 ShipEngine.Input engineInput = this.controlComputer.ComputeControl();
                 ApplyInaccuracies(engineInput);
@@ -65,14 +62,18 @@ public class AIController : ShipControllerModel {
             }
         }
 
-        public void SetObjective (Objective objective, Transform target) {
+        public void SetObjective (LowLevelObjective objective) {
             this.currentObjective = objective;
-            switch (this.currentObjective) {
-                case Objective.TargetShip:
-                    this.currentSubController = new ShipTargeter(this.ship, target.GetComponent<Ship>(), this.desiredDistance, this.model.anticipationFactor);
+
+            switch (this.currentObjective.type) {
+                case LowLevelObjective.Type.TargetShip:
+                    this.currentSubController = new ShipTargeter(this.ship, objective.target.GetComponent<Ship>(), this.desiredDistance, this.model.anticipationFactor);
                     break;
-                case Objective.MoveToPoint:
-                    this.currentSubController = new PathFollower(this.ship, target.position);
+                case LowLevelObjective.Type.TargetObject:
+                    this.currentSubController = new ObjectTargeter(this.ship, objective.target.GetComponent<IDestructible>(), this.desiredDistance);
+                    break;
+                case LowLevelObjective.Type.MoveToPoint:
+                    this.currentSubController = new PathFollower(this.ship, objective.point);
                     break;
             }
         }

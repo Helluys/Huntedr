@@ -13,5 +13,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: AI
   shipModel: {fileID: 11400000, guid: f59b4fd3c72e920429c1b9c5bec51925, type: 2}
-  shipControllerModel: {fileID: 11400000, guid: 288308e6e6086eb499e8b32986ba9459,
+  shipControllerModel: {fileID: 11400000, guid: f04a78fd6bea43545bf689aad7752b9a,
     type: 2}

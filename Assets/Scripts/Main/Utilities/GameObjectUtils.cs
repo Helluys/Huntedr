@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public static class GameObjectUtils {
 
@@ -18,6 +19,20 @@ public static class GameObjectUtils {
 
         foreach (Transform child in target)
             SetColorRecursive(child, secondaryColor, primaryColor);
+    }
+
+    public static GameObject GetClosest (GameObject gameObject, List<GameObject> others) {
+        float minDistance = Mathf.Infinity;
+        GameObject closest = null;
+
+        foreach (GameObject go in others) {
+            float distance = (gameObject.transform.position - go.transform.position).magnitude;
+
+            if (distance < minDistance)
+                closest = go;
+        }
+
+        return closest;
     }
 
 }

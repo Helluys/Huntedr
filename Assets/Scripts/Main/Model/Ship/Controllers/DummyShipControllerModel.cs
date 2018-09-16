@@ -3,7 +3,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Game data/Ships/Ship Controllers/Dummy Ship Controller", fileName = "DummyShipController")]
-public class DummyShipController : ShipControllerModel {
+public class DummyShipControllerModel : ShipControllerModel {
 
     [SerializeField] private bool shoot = false;
     [SerializeField] private bool move = false;
@@ -17,10 +17,10 @@ public class DummyShipController : ShipControllerModel {
     private class DummyShipControllerInstance : Instance {
 
         private Ship ship;
-        private DummyShipController model;
+        private DummyShipControllerModel model;
         private WaitForSeconds waiter = new WaitForSeconds(1f);
 
-        public DummyShipControllerInstance (Ship ship, DummyShipController model) {
+        public DummyShipControllerInstance (Ship ship, DummyShipControllerModel model) {
             this.ship = ship;
             this.model = model;
             this.waiter = new WaitForSeconds(model.updateDelay);

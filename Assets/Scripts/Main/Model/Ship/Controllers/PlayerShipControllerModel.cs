@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [CreateAssetMenu(menuName = "Game data/Ships/Ship Controllers/Player Ship Controller", fileName = "PlayerShipController")]
-public class PlayerShipController : ShipControllerModel {
+public class PlayerShipControllerModel : ShipControllerModel {
 
     #region shared state
     [SerializeField] private float mouseSensitivity;
@@ -15,12 +15,12 @@ public class PlayerShipController : ShipControllerModel {
     [System.Serializable]
     private class PlayerShipControllerInstance : Instance {
 
-        private PlayerShipController model;
+        private PlayerShipControllerModel model;
         private Ship ship;
         private WeaponSystem primaryWeapon { get { return ship.weaponSystems[0].GetComponent<WeaponSystem>(); } }
         private WeaponSystem secondaryWeapon { get { return ship.weaponSystems[1].GetComponent<WeaponSystem>(); } }
 
-        public PlayerShipControllerInstance (PlayerShipController playerController, Ship holder) {
+        public PlayerShipControllerInstance (PlayerShipControllerModel playerController, Ship holder) {
             Cursor.lockState = CursorLockMode.Locked;
             model = playerController;
             ship = holder;

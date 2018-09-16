@@ -51,6 +51,8 @@ public interface IDestructible {
     event EventHandler<IDestructible> OnDestruction;
     event EventHandler<IDestructible> OnDamage;
 
+    GameObject gameObject { get; }
+
     bool Damage (float damage);
     void Destroy ();
 

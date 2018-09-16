@@ -12,7 +12,7 @@ public class DestroyTargetsWinCondition : WinCondition {
 
         public Faction faction {
             get {
-                return GameManager.instance.gameConfiguration.teams[factionIndex].faction;
+                return GameManager.instance.gameConfiguration.teams[this.factionIndex].faction;
             }
         }
     }
@@ -23,7 +23,7 @@ public class DestroyTargetsWinCondition : WinCondition {
         List<Faction> aliveFactions = new List<Faction>();
 
         // Loop through factions
-        foreach (FactionDestructibles factionDestructibles in factionDestructiblesList) {
+        foreach (FactionDestructibles factionDestructibles in this.factionDestructiblesList) {
             // A faction has lost if all its destructibles are destroyed
             if (!HasLost(factionDestructibles))
                 aliveFactions.Add(factionDestructibles.faction);
@@ -35,7 +35,7 @@ public class DestroyTargetsWinCondition : WinCondition {
 
     public override bool HasLost (Faction faction) {
         // Find FactionDestructible 
-        FactionDestructibles factionDestructibles = factionDestructiblesList.Find(e => { return e.faction.Equals(faction); });
+        FactionDestructibles factionDestructibles = this.factionDestructiblesList.Find(e => { return e.faction.Equals(faction); });
         if (factionDestructibles == null)
             throw new ArgumentOutOfRangeException("Faction " + faction + " is not part of the win conditions");
 
@@ -47,7 +47,7 @@ public class DestroyTargetsWinCondition : WinCondition {
     }
 
     public override void Setup () {
-        foreach (FactionDestructibles factionDestructibles in factionDestructiblesList) {
+        foreach (FactionDestructibles factionDestructibles in this.factionDestructiblesList) {
             foreach (IDestructible destructible in factionDestructibles.destructibles) {
                 destructible.OnDestruction += CheckWinCondition;
 
@@ -56,6 +56,22 @@ public class DestroyTargetsWinCondition : WinCondition {
                     GameObjectUtils.SetColorRecursive(component.transform, factionDestructibles.faction.primaryColor, factionDestructibles.faction.secondaryColor);
             }
         }
+    }
+
+    protected override List<HighLevelObjective> GetMapObjectives (Faction faction) {
+        List<HighLevelObjective> objectives = new List<HighLevelObjective>();
+
+        foreach (FactionDestructibles factionDestructibles in this.factionDestructiblesList) {
+            HighLevelObjective.Type currentTargetType =
+                Faction.AreFriendly(faction, factionDestructibles.faction) ?
+                    HighLevelObjective.Type.DefendTarget : HighLevelObjective.Type.AttackTarget;
+
+            foreach (IDestructible destructible in factionDestructibles.destructibles) {
+                objectives.Add(new HighLevelObjective(currentTargetType, destructible.gameObject));
+            }
+        }
+
+        return objectives;
     }
 
     private void CheckWinCondition (object sender, IDestructible destroyedTarget) {

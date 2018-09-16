@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class WinCondition : ScriptableObject {
     
     /// <summary>
     /// Callback triggered when a faction has won.
-    /// Needs SetupObservers to be called to work.
+    /// Needs Setup to be called to work.
     /// </summary>
     public event EventHandler<Faction> OnFactionWon;
 
@@ -28,6 +29,31 @@ public abstract class WinCondition : ScriptableObject {
     /// </summary>
     public abstract void Setup ();
 
+    /// <summary>
+    /// Retreives the list of High Level Objectives that the given Faction may fulfill.
+    /// </summary>
+    /// <param name="faction">The faction for which the ibjectives are requested</param>
+    /// <returns></returns>
+    public List<HighLevelObjective> GetObjectives (Faction faction) {
+        List<HighLevelObjective> objectives = GetMapObjectives(faction);
+        objectives.Add(new HighLevelObjective(HighLevelObjective.Type.Retreat, null));
+        objectives.Add(new HighLevelObjective(HighLevelObjective.Type.Scout, null));
+
+        return objectives;
+    }
+
+    /// <summary>
+    /// Retreives the list of High Level Objectives that the given Faction may fulfill on the current map.
+    /// Does not include generic objectives like Scout or Retreat.
+    /// </summary>
+    /// <param name="faction">The faction for which the ibjectives are requested</param>
+    /// <returns></returns>
+    protected abstract List<HighLevelObjective> GetMapObjectives (Faction faction);
+
+    /// <summary>
+    /// Callback for derived classes to notify observers of victory.
+    /// </summary>
+    /// <param name="faction">The faction that won. Event not dispatched if null.</param>
     protected void OnWin (Faction faction) {
         if (faction != null && OnFactionWon != null)
             OnFactionWon(this, faction);

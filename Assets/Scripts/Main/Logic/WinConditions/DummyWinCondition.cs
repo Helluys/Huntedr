@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 [CreateAssetMenu(fileName = "NoWin", menuName = "Game data/Win Conditions/No Win")]
 public class DummyWinCondition : WinCondition {
@@ -13,5 +14,9 @@ public class DummyWinCondition : WinCondition {
     
     public override void Setup () {
 
+    }
+
+    protected override List<HighLevelObjective> GetMapObjectives (Faction faction) {
+        return new List<HighLevelObjective>();
     }
 }

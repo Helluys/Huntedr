@@ -15,3 +15,4 @@ MonoBehaviour:
   faction: {fileID: 11400000, guid: 37b43f7feb252324eb724c2c04b1fa7f, type: 2}
   ships:
   - {fileID: 11400000, guid: 0b9a270cae577dc478afa62cebeba51a, type: 2}
+  aiPersonality: {fileID: 11400000, guid: bf8d942644429354abea0ef35ce23799, type: 2}

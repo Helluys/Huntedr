@@ -7,5 +7,6 @@ public class TeamConfiguration : ScriptableObject {
     new public string name;
     public Faction faction;
     public List<ShipConfiguration> ships = new List<ShipConfiguration>();
+    public AIPersonality aiPersonality;
 
 }
