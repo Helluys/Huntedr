@@ -633,7 +633,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   winConditions: {fileID: 65935158}
-  gameConfiguration: {fileID: 11400000, guid: 712c1e5956180ec46aeebdbef623d869, type: 2}
+  gameConfiguration: {fileID: 11400000, guid: c5225f1969acc8348b1863ea11aa4e76, type: 2}
   shipPrefab: {fileID: 1867537824244166, guid: a40049ff5961e6f41946ec69720d6af5, type: 2}
   playerController: {fileID: 11400000, guid: 2cec7b6e30456524c86823bb4497ac0e, type: 2}
   spawningZones:

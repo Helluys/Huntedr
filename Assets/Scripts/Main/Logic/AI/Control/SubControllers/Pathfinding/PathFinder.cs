@@ -22,7 +22,7 @@ public class PathFinder {
 
         foreach (IPathNode node in network) {
             float distance = (node.position - point).magnitude;
-            if (distance < minDistance && Physics.Raycast(new Ray(point, node.position - point), Mathf.Infinity)) {
+            if (distance < minDistance && !Physics.Raycast(new Ray(point, node.position - point), distance)) {
                 minDistance = distance;
                 closestNode = node;
             }

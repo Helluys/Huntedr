@@ -11,5 +11,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd64d6f8ba306354198420b5f84cafb1, type: 3}
   m_Name: AI Personality
   m_EditorClassIdentifier: 
-  updateDelay: 1
+  updateDelay: 30
   aggressionRange: 10

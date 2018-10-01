@@ -8,11 +8,12 @@ internal class FreePathNode : IPathNode {
 
     public FreePathNode (Vector3 position, List<IPathNode> network) {
         this.position = position;
-        network.Add(this);
         foreach (IPathNode node in network) {
-            if (!Physics.Raycast(position, (node.position - position).normalized, (node.position - position).magnitude))
+            Vector3 delta = (node.position - position);
+            if (!Physics.Raycast(position, delta.normalized, delta.magnitude))
                AddAdjacentNode(PathFinder.FindClosestNode(position, network));
         }
+        network.Add(this);
     }
 
     public float GetCost (IPathNode targetNode) {

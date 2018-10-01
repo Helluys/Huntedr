@@ -65,7 +65,7 @@ public class AIControllerModel : ShipControllerModel {
         public void SetObjective (LowLevelObjective objective) {
             this.currentObjective = objective;
 
-            switch (this.currentObjective.type) {
+            switch (this.currentObjective?.type) {
                 case LowLevelObjective.Type.TargetShip:
                     this.currentSubController = new ShipTargeter(this.ship, objective.target.GetComponent<Ship>(), this.desiredDistance, this.model.anticipationFactor);
                     break;
