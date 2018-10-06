@@ -3,7 +3,6 @@
 [CreateAssetMenu(menuName = "Game data/Ships/Ship Controllers/AI Ship Controller", fileName = "AIController")]
 public class AIControllerModel : ShipControllerModel {
 
-
     [SerializeField] private Vector3 thrustFactors;
     [SerializeField] private Vector3 torqueFactors;
 
@@ -63,19 +62,27 @@ public class AIControllerModel : ShipControllerModel {
         }
 
         public void SetObjective (LowLevelObjective objective) {
+            Debug.Log("Setting objective : " + objective.type + " - " + objective.target + objective.point);
             this.currentObjective = objective;
 
+            if (this.currentSubController != null)
+                this.currentSubController.OnObjectiveCompleted -= CurrentSubController_OnObjectiveCompleted;
+
             switch (this.currentObjective?.type) {
-                case LowLevelObjective.Type.TargetShip:
-                    this.currentSubController = new ShipTargeter(this.ship, objective.target.GetComponent<Ship>(), this.desiredDistance, this.model.anticipationFactor);
-                    break;
-                case LowLevelObjective.Type.TargetObject:
-                    this.currentSubController = new ObjectTargeter(this.ship, objective.target.GetComponent<IDestructible>(), this.desiredDistance);
+                case LowLevelObjective.Type.Destroy:
+                    if (objective.target is Ship)
+                        this.currentSubController = new ShipTargeter(this.ship, objective.target as Ship, this.desiredDistance, this.model.anticipationFactor);
+                    else
+                        this.currentSubController = new ObjectTargeter(this.ship, objective.target, this.desiredDistance);
                     break;
                 case LowLevelObjective.Type.MoveToPoint:
                     this.currentSubController = new PathFollower(this.ship, objective.point);
                     break;
+                default:
+                    throw new System.InvalidOperationException("LowLevelObjective type unknown: " + objective.type);
             }
+
+            this.currentSubController.OnObjectiveCompleted += CurrentSubController_OnObjectiveCompleted;
         }
 
         private bool IsUpdateFrame () {
@@ -89,6 +96,11 @@ public class AIControllerModel : ShipControllerModel {
         private void ApplyInaccuracies (ShipEngine.Input engineInput) {
             engineInput.thrust += Random.insideUnitSphere * (1f - this.model.accuracy);
             engineInput.torque += Random.insideUnitSphere * (1f - this.model.accuracy);
+        }
+
+        private void CurrentSubController_OnObjectiveCompleted (object sender, AISubController e) {
+            Debug.Log("Objective completed!");
+            this.ship.team.ai.tactical.UpdateOrder(this.ship);
         }
     }
 }

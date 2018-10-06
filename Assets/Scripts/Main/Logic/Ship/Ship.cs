@@ -14,7 +14,7 @@ public class Ship : MonoBehaviour, IDestructible {
     public ShipController controller;
     public ShipAbilities abilities;
     
-    public Faction faction;
+    public Team team;
 
     [SerializeField] private List<Transform> weaponTransforms;
 
@@ -80,7 +80,7 @@ public class Ship : MonoBehaviour, IDestructible {
     private void ApplyFactionColor () {
         Transform modelTransform = transform.Find("Model");
         if (modelTransform != null)
-            GameObjectUtils.SetColorRecursive(modelTransform, faction.primaryColor, faction.secondaryColor);
+            GameObjectUtils.SetColorRecursive(modelTransform, team.faction.primaryColor, team.faction.secondaryColor);
     }
     #endregion
 
@@ -106,7 +106,7 @@ public class Ship : MonoBehaviour, IDestructible {
     }
 
     public void Respawn () {
-        GameManager.GetSpawningZone(faction).RespawnShip(this);
+        GameManager.GetSpawningZone(team.faction).RespawnShip(this);
         gameObject.SetActive(true);
         isDestroyed = false;
     }

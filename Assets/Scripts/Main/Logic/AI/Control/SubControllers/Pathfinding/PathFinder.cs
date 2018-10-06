@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PathFinder {
 
+    public static readonly LayerMask mapLayerMask = LayerMask.NameToLayer("MapElements");
+
     private readonly List<IPathNode> network;
 
     private struct NodeData {
@@ -22,7 +24,7 @@ public class PathFinder {
 
         foreach (IPathNode node in network) {
             float distance = (node.position - point).magnitude;
-            if (distance < minDistance && !Physics.Raycast(new Ray(point, node.position - point), distance)) {
+            if (distance < minDistance && !Physics.Raycast(new Ray(point, node.position - point), distance, mapLayerMask)) {
                 minDistance = distance;
                 closestNode = node;
             }
@@ -79,11 +81,9 @@ public class PathFinder {
         // Goal is not reachable
         if (!goalReached)
             throw new UnreachableNodeException();
-        
-        // Compute final path
-        List<IPathNode> finalPath = GetFinalPath(closedList, endNode);
 
-        return finalPath;
+        // Compute final path and return it
+        return GetFinalPath(closedList, endNode);
     }
 
     // Returns the node in the openList with the lowest evaluation

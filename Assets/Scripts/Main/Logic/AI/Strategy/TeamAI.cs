@@ -1,15 +1,16 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class TeamAI {
     private readonly Team team;
-    private readonly AIAnalysis analysis;
-    private readonly AIResourceAllocation resourceAllocation;
-    private readonly AITactical tactical;
-    private readonly AIPersonality personality;
+    public AIAnalysis analysis { get; }
+    public AIResourceAllocation resourceAllocation { get; }
+    public AITactical tactical { get; }
+    public AIPersonality personality { get; }
 
     private readonly WaitForSeconds waitDelay;
+    private Coroutine coroutine;
 
     public TeamAI (Team team, AIPersonality aiPersonality) {
         this.team = team;
@@ -17,20 +18,30 @@ public class TeamAI {
 
         this.analysis = new AIAnalysis(this.team, GameManager.instance.winConditions.GetObjectives(this.team.faction), this.personality);
         this.resourceAllocation = new AIResourceAllocation(this.team, this.personality);
-        this.tactical = new AITactical(this.personality);
+        this.tactical = new AITactical(this.team, this.personality);
 
         this.waitDelay = new WaitForSeconds(this.personality.updateDelay);
-
-        GameManager.instance.StartCoroutine(UpdateAI());
     }
 
-    private IEnumerator UpdateAI () {
+    public void Start () {
+        this.coroutine = GameManager.instance.StartCoroutine(AILoop());
+    }
+
+    public void Stop () {
+        GameManager.instance.StopCoroutine(this.coroutine);
+    }
+
+    private IEnumerator AILoop () {
         while (!GameManager.instance.winConditions.HasLost(this.team.faction)) {
-            Dictionary<HighLevelObjective, float> priorizedObjectives = this.analysis.ComputeObjectivesPriorities();
-            Dictionary<HighLevelObjective, List<Ship>> assignedObjectives = this.resourceAllocation.AllocateObjectives(priorizedObjectives);
-            this.tactical.GiveOrders(assignedObjectives);
+            UpdateAI();
 
             yield return this.waitDelay;
         }
+    }
+
+    public void UpdateAI () {
+        this.analysis.UpdateObjectivesPriorities();
+        this.resourceAllocation.UpdateAllocatedObjectives();
+        this.tactical.UpdateOrders();
     }
 }

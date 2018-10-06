@@ -44,6 +44,10 @@ public class GameManager : MonoBehaviour {
         CreateShips();
 
         this.winConditions.Setup();
+
+        foreach(Team team in _teamList) {
+            team.ai.Start();
+        }
     }
 
     private void Update () {
@@ -63,10 +67,11 @@ public class GameManager : MonoBehaviour {
     private void CreateShips () {
         foreach (TeamConfiguration teamConfiguration in this.gameConfiguration.teams) {
             List<Ship> teamShips = new List<Ship>();
+            Team team = new Team(teamConfiguration.name, teamConfiguration.faction, teamShips, teamConfiguration.aiPersonality);
 
             foreach (ShipConfiguration shipConfiguration in teamConfiguration.ships) {
                 Ship ship = Instantiate(this.shipPrefab).GetComponent<Ship>();
-                ship.faction = teamConfiguration.faction;
+                ship.team = team;
 
                 ship.name = shipConfiguration.name;
                 ship.model = shipConfiguration.shipModel;
@@ -81,7 +86,7 @@ public class GameManager : MonoBehaviour {
                 ship.Respawn();
             }
 
-            this._teamList.Add(new Team(teamConfiguration.name, teamConfiguration.faction, teamShips, teamConfiguration.aiPersonality));
+            this._teamList.Add(team);
         }
     }
 

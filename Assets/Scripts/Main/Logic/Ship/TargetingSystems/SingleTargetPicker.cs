@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -25,7 +24,7 @@ public class SingleTargetPicker : TargetPicker<Ship> {
         List<Ship> returnedList = new List<Ship>();
 
         foreach (Ship ship in inputShipList)
-            if (!(ship.faction.Equals(caster.faction) ^ sameFaction))
+            if (!(ship.team.faction.Equals(caster.team.faction) ^ sameFaction))
                 returnedList.Add(ship);
 
         return returnedList.AsReadOnly();

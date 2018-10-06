@@ -8,10 +8,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69761769c6404bb45bf32b5035a4cc0c, type: 3}
+  m_Script: {fileID: 11500000, guid: 37fcf61186910da4ca5d7d0a90363f1d, type: 3}
   m_Name: DummyShipController
   m_EditorClassIdentifier: 
   name: Dummy
   shoot: 0
   move: 1
-  updateDelay: 5
+  updateDelay: 1

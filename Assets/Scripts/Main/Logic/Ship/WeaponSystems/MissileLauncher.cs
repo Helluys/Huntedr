@@ -32,7 +32,7 @@ public class MissileLauncher : WeaponSystem {
         Ship newTarget = null;
 
         foreach (Ship detectedShip in detectedShips) {
-            if (detectedShip.faction.Equals(ship.faction) || detectedShip.isDestroyed)
+            if (detectedShip.team.faction.Equals(ship.team.faction) || detectedShip.isDestroyed)
                 continue;
             else if (newTarget == null)
                     newTarget = detectedShip;

@@ -1,7 +1,6 @@
 ﻿using System;
 
 public abstract class AISubController {
-
     public float accuracy;
 
     public event EventHandler<AISubController> OnObjectiveCompleted;

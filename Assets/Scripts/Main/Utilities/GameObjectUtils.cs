@@ -35,4 +35,9 @@ public static class GameObjectUtils {
         return closest;
     }
 
+    public static bool CanSee (Ship ship, GameObject target) {
+        RaycastHit hitInfo;
+        return Physics.Raycast(ship.transform.position, (target.transform.position - ship.transform.position).normalized, out hitInfo, Mathf.Infinity) && hitInfo.transform.gameObject.Equals(target);
+    }
+
 }

@@ -10,6 +10,9 @@ public class AIAnalysis {
     private readonly List<HighLevelObjective> objectives;
     private readonly AIPersonality personality;
 
+    private readonly Dictionary<HighLevelObjective, float> _priorizedObjectives = new Dictionary<HighLevelObjective, float>();
+    public IReadOnlyDictionary<HighLevelObjective, float> priorizedObjectives { get { return this._priorizedObjectives; } }
+
     public AIAnalysis (Team team, List<HighLevelObjective> objectives, AIPersonality personality) {
         this.gameManager = GameManager.instance;
         this.team = team;
@@ -26,21 +29,19 @@ public class AIAnalysis {
 
     private void OnObjectiveDestruction (object sender, IDestructible e) {
         // Remove destroyed objective
-        IDestructible destructibleObjective = sender as IDestructible;
-        objectives.RemoveAt(objectives.FindIndex(obj => obj.target.Equals(destructibleObjective.gameObject)));
+        this.objectives.RemoveAt(this.objectives.FindIndex(obj => obj.target.Equals(e.gameObject)));
+
+        this.team.ai.UpdateAI();
 
         // Unregister as observer
-        destructibleObjective.OnDestruction -= OnObjectiveDestruction;
+        e.OnDestruction -= OnObjectiveDestruction;
     }
 
-    public Dictionary<HighLevelObjective, float> ComputeObjectivesPriorities () {
-        Dictionary<HighLevelObjective, float> goals = new Dictionary<HighLevelObjective, float>();
+    public void UpdateObjectivesPriorities () {
+        this._priorizedObjectives.Clear();
 
-        foreach (HighLevelObjective objective in objectives) {
-            goals.Add(objective, objective.type == HighLevelObjective.Type.AttackTarget ? 1f : 0f);
+        foreach (HighLevelObjective objective in this.objectives) {
+            this._priorizedObjectives.Add(objective, objective.type == HighLevelObjective.Type.AttackTarget ? 1f : 0f);
         }
-
-        return goals;
     }
-
 }
