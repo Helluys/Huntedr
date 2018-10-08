@@ -16,7 +16,7 @@ public class AITactical {
     }
 
     public void UpdateOrders () {
-        foreach (KeyValuePair<HighLevelObjective, IReadOnlyList<Ship>> objectiveShips in team.ai.resourceAllocation.assignedObjectives) {
+        foreach (KeyValuePair<HighLevelObjective, IReadOnlyList<Ship>> objectiveShips in this.team.ai.resourceAllocation.assignedObjectives) {
             foreach (Ship ship in objectiveShips.Value) {
                 UpdateOrder(objectiveShips, ship);
             }
@@ -25,7 +25,7 @@ public class AITactical {
 
     public void UpdateOrder (Ship ship) {
         KeyValuePair<HighLevelObjective, IReadOnlyList<Ship>> objectiveShips;
-        foreach (KeyValuePair<HighLevelObjective, IReadOnlyList<Ship>> kvp in team.ai.resourceAllocation.assignedObjectives) {
+        foreach (KeyValuePair<HighLevelObjective, IReadOnlyList<Ship>> kvp in this.team.ai.resourceAllocation.assignedObjectives) {
             if (kvp.Value.Contains(ship)) {
                 objectiveShips = kvp;
                 break;
@@ -48,39 +48,72 @@ public class AITactical {
 
         switch (highLevelObjective.type) {
             case HighLevelObjective.Type.DefendTarget:
-                if (GameObjectUtils.CanSee(ship, highLevelObjective.target)) {
-                    List<Ship> closeEnemyShips = GameManager.instance.FilterShips(
-                        s => !Faction.AreFriendly(s.team.faction, ship.team.faction)
-                        && (s.transform.position - highLevelObjective.target.transform.position).magnitude < this.personality.aggressionRange);
-
-                    if (closeEnemyShips.Count > 0) {
-                        GameObject target = GameObjectUtils.GetClosest(ship.gameObject, closeEnemyShips.ConvertAll(s => s.gameObject));
-                        objective = LowLevelObjective.Destroy(target.GetComponent<Ship>());
-                    } else
-                        objective = LowLevelObjective.GetInSight(highLevelObjective.target.transform);
-                } else {
-                    objective = LowLevelObjective.GetInSight(highLevelObjective.target.transform);
-                }
+                objective = DeriveDefendTargetObjective(ship, highLevelObjective);
                 break;
             case HighLevelObjective.Type.AttackTarget:
-                if (GameObjectUtils.CanSee(ship, highLevelObjective.target)) {
-                    objective = LowLevelObjective.Destroy(highLevelObjective.target.GetComponent<IDestructible>());
-                } else {
-                    objective = LowLevelObjective.GetInSight(highLevelObjective.target.transform);
-                }
+                objective = DeriveAttackTargetObjective(ship, highLevelObjective);
                 break;
-            case HighLevelObjective.Type.Scout: {
-                Transform target = GameManager.GetPathNodesHolder().transform.GetChild(Mathf.FloorToInt(UnityEngine.Random.value * GameManager.GetPathNodesHolder().transform.childCount));
-                objective = LowLevelObjective.MoveToPoint(target.position, 1f);
-            }
-            break;
+            case HighLevelObjective.Type.Scout:
+                objective = DeriveScoutObjective();
+                break;
             case HighLevelObjective.Type.Retreat:
-                objective = LowLevelObjective.MoveToPoint(GameManager.GetSpawningZone(ship.team.faction).transform.position, 1f);
+                objective = DeriveRetreatObjective(ship);
                 break;
             default:
                 throw new ArgumentException("Unknown HighLevelObjective Type : " + highLevelObjective.type);
         }
 
         return objective;
+    }
+
+    private LowLevelObjective DeriveScoutObjective () {
+        LowLevelObjective objective;
+        Transform target = GameManager.GetPathNodesHolder().transform.GetChild(Mathf.FloorToInt(UnityEngine.Random.value * GameManager.GetPathNodesHolder().transform.childCount));
+        objective = LowLevelObjective.MoveToPoint(target.position, 1f);
+        return objective;
+    }
+
+    private LowLevelObjective DeriveAttackTargetObjective (Ship ship, HighLevelObjective highLevelObjective) {
+        LowLevelObjective objective;
+        List<Ship> closeEnemyShips = GetEnemyShips(ship, highLevelObjective.target.transform.position);
+        if (closeEnemyShips.Count > 0) {
+            GameObject target = GameObjectUtils.GetClosest(ship.gameObject, closeEnemyShips.ConvertAll(s => s.gameObject));
+            objective = LowLevelObjective.Destroy(target.GetComponent<Ship>());
+        } else {
+            if (GameObjectUtils.CanSee(ship, highLevelObjective.target)) {
+                objective = LowLevelObjective.Destroy(highLevelObjective.target.GetComponent<IDestructible>());
+            } else {
+                objective = LowLevelObjective.GetInSight(highLevelObjective.target.transform);
+            }
+        }
+
+        return objective;
+    }
+
+    private LowLevelObjective DeriveDefendTargetObjective (Ship ship, HighLevelObjective highLevelObjective) {
+        LowLevelObjective objective;
+        if (GameObjectUtils.CanSee(ship, highLevelObjective.target)) {
+            List<Ship> closeEnemyShips = GetEnemyShips(ship, highLevelObjective.target.transform.position);
+            if (closeEnemyShips.Count > 0) {
+                GameObject target = GameObjectUtils.GetClosest(ship.gameObject, closeEnemyShips.ConvertAll(s => s.gameObject));
+                objective = LowLevelObjective.Destroy(target.GetComponent<Ship>());
+            } else
+                objective = LowLevelObjective.GetInSight(highLevelObjective.target.transform);
+        } else {
+            objective = LowLevelObjective.GetInSight(highLevelObjective.target.transform);
+        }
+
+        return objective;
+    }
+
+    private LowLevelObjective DeriveRetreatObjective (Ship ship) {
+        return LowLevelObjective.MoveToPoint(GameManager.GetSpawningZone(ship.team.faction).transform.position, 1f);
+    }
+
+    private List<Ship> GetEnemyShips (Ship ship, Vector3 targetPoint) {
+        return GameManager.instance.FilterShips(s =>
+                !Faction.AreFriendly(s.team.faction, ship.team.faction)
+                && (s.transform.position - targetPoint).magnitude < this.personality.aggressionRange
+                && GameObjectUtils.CanSee(ship, s.gameObject));
     }
 }

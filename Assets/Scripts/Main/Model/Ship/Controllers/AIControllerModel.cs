@@ -62,6 +62,10 @@ public class AIControllerModel : ShipControllerModel {
         }
 
         public void SetObjective (LowLevelObjective objective) {
+            if (this.currentObjective?.Equals(objective) ?? false) {
+                return;
+            }
+
             Debug.Log("Setting objective : " + objective.type + " - " + objective.target + objective.point);
             this.currentObjective = objective;
 

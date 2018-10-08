@@ -10,7 +10,8 @@ public class TeamAI {
     public AIPersonality personality { get; }
 
     private readonly WaitForSeconds waitDelay;
-    private Coroutine coroutine;
+    private Coroutine aiCoroutine;
+    private Coroutine tacticalCoroutine;
 
     public TeamAI (Team team, AIPersonality aiPersonality) {
         this.team = team;
@@ -24,11 +25,13 @@ public class TeamAI {
     }
 
     public void Start () {
-        this.coroutine = GameManager.instance.StartCoroutine(AILoop());
+        this.aiCoroutine = GameManager.instance.StartCoroutine(AILoop());
+        this.tacticalCoroutine = GameManager.instance.StartCoroutine(TacticalLoop());
     }
 
     public void Stop () {
-        GameManager.instance.StopCoroutine(this.coroutine);
+        GameManager.instance.StopCoroutine(this.aiCoroutine);
+        GameManager.instance.StopCoroutine(this.tacticalCoroutine);
     }
 
     private IEnumerator AILoop () {
@@ -39,9 +42,16 @@ public class TeamAI {
         }
     }
 
+    private IEnumerator TacticalLoop () {
+        while (!GameManager.instance.winConditions.HasLost(this.team.faction)) {
+            this.tactical.UpdateOrders();
+
+            yield return null;
+        }
+    }
+
     public void UpdateAI () {
         this.analysis.UpdateObjectivesPriorities();
         this.resourceAllocation.UpdateAllocatedObjectives();
-        this.tactical.UpdateOrders();
     }
 }
